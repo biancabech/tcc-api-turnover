@@ -1,4 +1,6 @@
 using API_Usuario.Context;
+using API_Usuario.Models;
+using API_Usuario.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,10 +15,12 @@ var connection = builder.Configuration.GetConnectionString("MySql");
 builder.Services.AddDbContext<Db>(options =>
     options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
 
-//builder.Services.AddScoped<RoupaService>();
-//builder.Services.AddScoped<MarcaService>();
-//builder.Services.AddScoped<TecidoService>();
-//Depois dos Services
+builder.Services.AddScoped<AcompanhamentoServices>();
+builder.Services.AddScoped<DesligamentoServices>();
+builder.Services.AddScoped<FitCulturalServices>();
+builder.Services.AddScoped<FuncionarioServices>();
+builder.Services.AddScoped<MotivoDesligamentos>();
+
 
 var app = builder.Build();
 

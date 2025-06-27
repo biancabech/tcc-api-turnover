@@ -8,5 +8,6 @@
 
         public string Descricao { get; set; }
 
+        public Funcionario Funcionario { get; set; }
     }
 }

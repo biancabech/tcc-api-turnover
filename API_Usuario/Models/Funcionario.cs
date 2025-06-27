@@ -15,5 +15,7 @@
         public string DataDemi { get; set; }
 
         public string Cargo { get; set; }
+
+        public ICollection<Funcionario> Funcionarios { get; set; } = new List<Funcionario>();
     }
 }
