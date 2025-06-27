@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using API_Usuario.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_Usuario.Controllers
@@ -7,6 +8,11 @@ namespace API_Usuario.Controllers
     [ApiController]
     public class AcompanhamentoController : ControllerBase
     {
+        public readonly AcompanhamentoServices _services;
 
+        public AcompanhamentoController (AcompanhamentoServices Acompanhamentoservices)
+        {
+            _services = Acompanhamentoservices;
+        }   
     }
 }
