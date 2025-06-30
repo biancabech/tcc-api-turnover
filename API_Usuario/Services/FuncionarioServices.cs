@@ -23,6 +23,7 @@ namespace API_Usuario.Services
                 .Include(f => f.DataAdmi)
                 .Include(f => f.DataDemi)
                 .Include(f => f.Cargo)
+                .Include(f => f.Email)
                 .ToListAsync();
         }
         public async Task<string> AddFuncionario(FuncionarioDTOs dto)
@@ -37,6 +38,7 @@ namespace API_Usuario.Services
             funcionario.DataNasci = dto.DataNasci;
             funcionario.DataAdmi = dto.DataAdmi;
             funcionario.DataDemi = dto.DataDemi;
+            funcionario.Email = dto.Email;
             
             await _context.Funcionarios.AddAsync(funcionario);
             await _context.SaveChangesAsync();
@@ -54,7 +56,9 @@ namespace API_Usuario.Services
             funcionario.DataNasci = dto.DataNasci;
             funcionario.DataAdmi = dto.DataAdmi;
             funcionario.DataDemi = dto.DataDemi;
+            funcionario.Email = dto.Email;
             funcionario.Cargo = cargo;
+            
 
             _context.Funcionarios.Update(funcionario);
             await _context.SaveChangesAsync();
