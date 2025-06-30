@@ -12,6 +12,8 @@
 
         public string DataDemi { get; set; }
 
-        public string Cargo { get; set; }
+        public string Email { get; set; }
+
+        public Guid CargoId { get; set; }
     }
 }

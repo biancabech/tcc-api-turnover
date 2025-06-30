@@ -11,6 +11,10 @@ namespace API_Usuario.Context
 
         public DbSet<Desligamento> Desligamentos { get;  set; }
 
+        public DbSet<Funcionario> Funcionarios { get; set; }
+
+        public DbSet<Cargo> Cargos { get; set; }
+
         public DbSet<FitCultural> FitCulturals { get; set; }
 
         public DbSet<MotivoDesligamentos> MotivoDesligamentos { get; set; }

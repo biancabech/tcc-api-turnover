@@ -13,7 +13,5 @@
         public string FeedDesligamento { get; set; }
         
         public Funcionario Funcionario { get; set; }
-
-        public Funcionario funcionario { get; set; }
     }
 }

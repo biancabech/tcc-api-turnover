@@ -9,6 +9,7 @@
         public string Descricao { get; set; }
 
         public Desligamento desligamento { get; set; }
+
         public Funcionario Funcionario { get; set; }
     }
 }
