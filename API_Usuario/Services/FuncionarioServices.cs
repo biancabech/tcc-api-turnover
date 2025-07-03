@@ -42,7 +42,7 @@ namespace API_Usuario.Services
             
             await _context.Funcionarios.AddAsync(funcionario);
             await _context.SaveChangesAsync();
-            return "Roupa Adicionada com Sucesso!";
+            return "Funcionario Adicionada com Sucesso!";
         }
         public async Task<string> UpdateFuncionario(int id, FuncionarioDTOs dto)
         {
