@@ -17,15 +17,10 @@ namespace API_Usuario.Services
         public async Task<List<Funcionario>> GetAllFuncionarios()
         {
             return await _context.Funcionarios
-                .Include(f => f.Nome)
-                .Include(f => f.Genero)
-                .Include(f => f.DataNasci)
-                .Include(f => f.DataAdmi)
-                .Include(f => f.DataDemi)
                 .Include(f => f.Cargo)
-                .Include(f => f.Email)
                 .ToListAsync();
         }
+
         public async Task<string> AddFuncionario(FuncionarioDTOs dto)
         {
             var cargo = await _context.Cargos.FindAsync(dto.CargoId);
@@ -35,35 +30,41 @@ namespace API_Usuario.Services
             funcionario.Nome = dto.Nome;
             funcionario.Genero = dto.Genero;
             funcionario.Cargo = cargo;
-            funcionario.DataNasci = dto.DataNasci;
-            funcionario.DataAdmi = dto.DataAdmi;
-            funcionario.DataDemi = dto.DataDemi;
+
+            funcionario.DataNasci = DateTime.Parse(dto.DataNasci);
+            funcionario.DataAdmi = DateTime.Parse(dto.DataAdmi);
+            funcionario.DataDemi = string.IsNullOrEmpty(dto.DataDemi) ? null : DateTime.Parse(dto.DataDemi);
+
             funcionario.Email = dto.Email;
-            
+
             await _context.Funcionarios.AddAsync(funcionario);
             await _context.SaveChangesAsync();
-            return "Funcionario Adicionada com Sucesso!";
+            return "Funcionário adicionado com sucesso!";
         }
+
         public async Task<string> UpdateFuncionario(int id, FuncionarioDTOs dto)
         {
             var funcionario = await _context.Funcionarios.Include(f => f.Cargo).FirstOrDefaultAsync(f => f.Id.Equals(id));
             if (funcionario == null) return "Funcionário não encontrado";
+
             var cargo = await _context.Cargos.FindAsync(dto.CargoId);
             if (cargo == null) return "Cargo não encontrado";
 
             funcionario.Nome = dto.Nome;
             funcionario.Genero = dto.Genero;
-            funcionario.DataNasci = dto.DataNasci;
-            funcionario.DataAdmi = dto.DataAdmi;
-            funcionario.DataDemi = dto.DataDemi;
-            funcionario.Email = dto.Email;
             funcionario.Cargo = cargo;
-            
+
+            funcionario.DataNasci = DateTime.Parse(dto.DataNasci);
+            funcionario.DataAdmi = DateTime.Parse(dto.DataAdmi);
+            funcionario.DataDemi = string.IsNullOrEmpty(dto.DataDemi) ? null : DateTime.Parse(dto.DataDemi);
+
+            funcionario.Email = dto.Email;
 
             _context.Funcionarios.Update(funcionario);
             await _context.SaveChangesAsync();
             return "Funcionário atualizado com sucesso";
         }
+
         public async Task<string> DeleteFuncionario(int id)
         {
             var funcionario = await _context.Funcionarios.FindAsync(id);
