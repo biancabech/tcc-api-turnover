@@ -5,5 +5,7 @@
         public string Motivo { get; set; }
 
         public string Descricao { get; set; }
+
+        public Guid DesligamentoId { get; set; }
     }
 }

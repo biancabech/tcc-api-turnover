@@ -16,10 +16,7 @@ namespace API_Usuario.Services
         public async Task<List<Desligamento>> GetAllDesligamentos()
         {
             return await _context.Desligamentos
-                .Include(f => f.DataDesligamento)
-                .Include(f => f.FeedDesligamento)
-                .Include(f => f.isGrave)
-                .Include(f => f.Descricao)
+                .Include(f => f.Funcionario)
                 .ToListAsync();
 
 
