@@ -7,5 +7,7 @@ namespace API_Usuario.DTOs
         public string Nome { get; set; }
 
         public Funcionario Funcionario { get; set; }
+
+        public Guid FuncionarioId { get; set; }
     }
 }
