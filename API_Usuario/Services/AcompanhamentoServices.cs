@@ -45,17 +45,33 @@ namespace API_Usuario.Services
             var acompanhamento = await _context.Acompanhamentos.Include(f => f.Funcionario).FirstOrDefaultAsync(f => f.Id.Equals(id));
             if (acompanhamento == null) return "Acompanhamento não encontrado";
 
-            acompanhamento.Data = dto.Data;
-            acompanhamento.DataFeedBack = dto.DataFeedBack;
-            acompanhamento.FeedEmpresa = dto.FeedEmpresa;
-            acompanhamento.FeedFuncion = dto.FeedFuncion;
-            acompanhamento.PontosBaixos = dto.PontosBaixos;
-            acompanhamento.PontosAltos = dto.PontosAltos;
+            var acompanhamentos = new Acompanhamento
+            {
 
-            _context.Acompanhamentos.Update(acompanhamento);
+                Data = dto.Data,
+                DataFeedBack = dto.DataFeedBack,
+                FeedEmpresa = dto.FeedEmpresa,
+                FeedFuncion = dto.FeedFuncion,
+                PontosBaixos = dto.PontosBaixos,
+                PontosAltos = dto.PontosAltos
+            };
+                _context.Acompanhamentos.Update(acompanhamento);
+                await _context.SaveChangesAsync();
+                return "Motivo do Desligamento foi Atualizado!";
+            }
+        public async Task<string> DeleteAcompanhamento(int id)
+        {
+            var acompanhamento = await _context.Acompanhamentos.FindAsync(id);
+            if (acompanhamento == null) return "Acompanhamento não encontrado";
+
+            _context.Acompanhamentos.Remove(acompanhamento);
             await _context.SaveChangesAsync();
-            return "Motivo do Desligamento foi Atualizado!";
+            return "Acompanhamento removido com sucesso";
         }
 
+        internal async Task<string> UpdateAcompanhamento(int id, AcompanhamentoDTOs dto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

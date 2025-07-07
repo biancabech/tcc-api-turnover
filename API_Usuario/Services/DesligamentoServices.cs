@@ -44,7 +44,7 @@ namespace API_Usuario.Services
             var funcionario = await _context.Funcionarios.FindAsync(dto.FuncionarioId);
             if (funcionario == null) return "Cargo não encontrado";
 
-            desligamento.DataDesligamento = DateTime.Parse(dto.DataDesligamento.);
+            desligamento.DataDesligamento = DateTime.Parse(dto.DataDesligamento);
             desligamento.isGrave = dto.isGrave;
             desligamento.Descricao = dto.Descricao;
             desligamento.FeedDesligamento = dto.Descricao;
