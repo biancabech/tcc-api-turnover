@@ -13,6 +13,12 @@ namespace API_Usuario.Controllers
         public AcompanhamentoController (AcompanhamentoServices Acompanhamentoservices)
         {
             _services = Acompanhamentoservices;
-        }   
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAll()
+        {
+            return Ok(await _services.GetAllAcompanhamentos());
+        }
     }
 }

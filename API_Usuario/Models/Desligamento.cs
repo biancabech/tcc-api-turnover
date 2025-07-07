@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public string DataDesligamento { get; set; }
+        public DateTime DataDesligamento { get; set; }
         public bool isGrave { get; set; }
         public string Descricao { get; set; }
         public string FeedDesligamento { get; set; }
