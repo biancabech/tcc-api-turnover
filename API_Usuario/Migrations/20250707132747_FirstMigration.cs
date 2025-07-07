@@ -15,32 +15,44 @@ namespace API_Usuario.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Funcionario",
+                name: "Cargos",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Nome = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cargos", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Funcionarios",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Nome = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Genero = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DataNasci = table.Column<string>(type: "longtext", nullable: false)
+                    DataNasci = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DataAdmi = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DataDemi = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DataAdmi = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    DataDemi = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Cargo = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Funcionarioid = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    CargoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Funcionario", x => x.id);
+                    table.PrimaryKey("PK_Funcionarios", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Funcionario_Funcionario_Funcionarioid",
-                        column: x => x.Funcionarioid,
-                        principalTable: "Funcionario",
-                        principalColumn: "id");
+                        name: "FK_Funcionarios_Cargos_CargoId",
+                        column: x => x.CargoId,
+                        principalTable: "Cargos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -61,16 +73,16 @@ namespace API_Usuario.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PontosBaixos = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Funcionarioid = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    FuncionarioId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Acompanhamentos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Acompanhamentos_Funcionario_Funcionarioid",
-                        column: x => x.Funcionarioid,
-                        principalTable: "Funcionario",
-                        principalColumn: "id",
+                        name: "FK_Acompanhamentos_Funcionarios_FuncionarioId",
+                        column: x => x.FuncionarioId,
+                        principalTable: "Funcionarios",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -80,30 +92,22 @@ namespace API_Usuario.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    DataDesligamento = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DataDesligamento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     isGrave = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Descricao = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FeedDesligamento = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Funcionarioid = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    funcionarioid = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    FuncionarioId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Desligamentos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Desligamentos_Funcionario_Funcionarioid",
-                        column: x => x.Funcionarioid,
-                        principalTable: "Funcionario",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Desligamentos_Funcionario_funcionarioid",
-                        column: x => x.funcionarioid,
-                        principalTable: "Funcionario",
-                        principalColumn: "id",
+                        name: "FK_Desligamentos_Funcionarios_FuncionarioId",
+                        column: x => x.FuncionarioId,
+                        principalTable: "Funcionarios",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -117,16 +121,16 @@ namespace API_Usuario.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Descricao = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Funcionarioid = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    FuncionarioId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FitCulturals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FitCulturals_Funcionario_Funcionarioid",
-                        column: x => x.Funcionarioid,
-                        principalTable: "Funcionario",
-                        principalColumn: "id",
+                        name: "FK_FitCulturals_Funcionarios_FuncionarioId",
+                        column: x => x.FuncionarioId,
+                        principalTable: "Funcionarios",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -140,61 +144,56 @@ namespace API_Usuario.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Descricao = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    desligamentoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Funcionarioid = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    DesligamentoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    FuncionarioId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MotivoDesligamentos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MotivoDesligamentos_Desligamentos_desligamentoId",
-                        column: x => x.desligamentoId,
+                        name: "FK_MotivoDesligamentos_Desligamentos_DesligamentoId",
+                        column: x => x.DesligamentoId,
                         principalTable: "Desligamentos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MotivoDesligamentos_Funcionario_Funcionarioid",
-                        column: x => x.Funcionarioid,
-                        principalTable: "Funcionario",
-                        principalColumn: "id",
+                        name: "FK_MotivoDesligamentos_Funcionarios_FuncionarioId",
+                        column: x => x.FuncionarioId,
+                        principalTable: "Funcionarios",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Acompanhamentos_Funcionarioid",
+                name: "IX_Acompanhamentos_FuncionarioId",
                 table: "Acompanhamentos",
-                column: "Funcionarioid");
+                column: "FuncionarioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Desligamentos_funcionarioid",
+                name: "IX_Desligamentos_FuncionarioId",
                 table: "Desligamentos",
-                column: "funcionarioid");
+                column: "FuncionarioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Desligamentos_Funcionarioid",
-                table: "Desligamentos",
-                column: "Funcionarioid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FitCulturals_Funcionarioid",
+                name: "IX_FitCulturals_FuncionarioId",
                 table: "FitCulturals",
-                column: "Funcionarioid");
+                column: "FuncionarioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Funcionario_Funcionarioid",
-                table: "Funcionario",
-                column: "Funcionarioid");
+                name: "IX_Funcionarios_CargoId",
+                table: "Funcionarios",
+                column: "CargoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MotivoDesligamentos_desligamentoId",
+                name: "IX_MotivoDesligamentos_DesligamentoId",
                 table: "MotivoDesligamentos",
-                column: "desligamentoId");
+                column: "DesligamentoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MotivoDesligamentos_Funcionarioid",
+                name: "IX_MotivoDesligamentos_FuncionarioId",
                 table: "MotivoDesligamentos",
-                column: "Funcionarioid");
+                column: "FuncionarioId");
         }
 
         /// <inheritdoc />
@@ -213,7 +212,10 @@ namespace API_Usuario.Migrations
                 name: "Desligamentos");
 
             migrationBuilder.DropTable(
-                name: "Funcionario");
+                name: "Funcionarios");
+
+            migrationBuilder.DropTable(
+                name: "Cargos");
         }
     }
 }

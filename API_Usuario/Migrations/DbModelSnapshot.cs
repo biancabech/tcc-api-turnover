@@ -83,9 +83,8 @@ namespace API_Usuario.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("DataDesligamento")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<DateTime>("DataDesligamento")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -141,17 +140,14 @@ namespace API_Usuario.Migrations
                     b.Property<Guid>("CargoId")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("DataAdmi")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<DateTime>("DataAdmi")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DataDemi")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<DateTime?>("DataDemi")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DataNasci")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<DateTime>("DataNasci")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -182,6 +178,9 @@ namespace API_Usuario.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<Guid>("DesligamentoId")
+                        .HasColumnType("char(36)");
+
                     b.Property<Guid>("FuncionarioId")
                         .HasColumnType("char(36)");
 
@@ -189,14 +188,11 @@ namespace API_Usuario.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("desligamentoId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("FuncionarioId");
+                    b.HasIndex("DesligamentoId");
 
-                    b.HasIndex("desligamentoId");
+                    b.HasIndex("FuncionarioId");
 
                     b.ToTable("MotivoDesligamentos");
                 });
@@ -247,21 +243,21 @@ namespace API_Usuario.Migrations
 
             modelBuilder.Entity("API_Usuario.Models.MotivoDesligamentos", b =>
                 {
+                    b.HasOne("API_Usuario.Models.Desligamento", "Desligamento")
+                        .WithMany()
+                        .HasForeignKey("DesligamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("API_Usuario.Models.Funcionario", "Funcionario")
                         .WithMany()
                         .HasForeignKey("FuncionarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API_Usuario.Models.Desligamento", "desligamento")
-                        .WithMany()
-                        .HasForeignKey("desligamentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Desligamento");
 
                     b.Navigation("Funcionario");
-
-                    b.Navigation("desligamento");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.Cargo", b =>
