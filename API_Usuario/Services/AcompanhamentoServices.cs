@@ -13,15 +13,10 @@ namespace API_Usuario.Services
         {
             _context = context;
         }
-        public async Task<List<Acompanhamento>> GetAcompanhamentos()
+        public async Task<List<Acompanhamento>> GetAllAcompanhamentos()
         {
             return await _context.Acompanhamentos
-                .Include(f => f.Data)
-                .Include(f => f.FeedEmpresa)
-                .Include(f => f.FeedFuncion)
-                .Include(f => f.DataFeedBack)
-                .Include(f => f.PontosAltos)
-                .Include(f => f.PontosBaixos)
+                .Include(f => f.Funcionario)
                 .ToListAsync();
                 
         }
@@ -40,9 +35,26 @@ namespace API_Usuario.Services
 
             
 
-            await _context.Funcionarios.AddAsync(acompanhamento);
+            await _context.Acompanhamentos.AddAsync(acompanhamento);
             await _context.SaveChangesAsync();
             return "Acompanhamento adicionado com Sucesso!";
+        }
+
+        public async Task<string> UpdateAcompanhamento(int id, Acompanhamento dto)
+        {
+            var acompanhamento = await _context.Acompanhamentos.Include(f => f.Funcionario).FirstOrDefaultAsync(f => f.Id.Equals(id));
+            if (acompanhamento == null) return "Acompanhamento não encontrado";
+
+            acompanhamento.Data = dto.Data;
+            acompanhamento.DataFeedBack = dto.DataFeedBack;
+            acompanhamento.FeedEmpresa = dto.FeedEmpresa;
+            acompanhamento.FeedFuncion = dto.FeedFuncion;
+            acompanhamento.PontosBaixos = dto.PontosBaixos;
+            acompanhamento.PontosAltos = dto.PontosAltos;
+
+            _context.Acompanhamentos.Update(acompanhamento);
+            await _context.SaveChangesAsync();
+            return "Motivo do Desligamento foi Atualizado!";
         }
 
     }

@@ -26,7 +26,7 @@ namespace API_Usuario.Services
             if (funcionario == null) return "Funcionario não encontrado";
 
             Desligamento desligamento = new Desligamento();
-            desligamento.DataDesligamento = DateTime.Parse(dto.DataDesligamento.);
+            desligamento.DataDesligamento = DateTime.Parse(dto.DataDesligamento);
             desligamento.isGrave = dto.isGrave;
             desligamento.Descricao = dto.Descricao;
             desligamento.FeedDesligamento = dto.Descricao;
