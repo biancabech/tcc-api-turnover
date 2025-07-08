@@ -1,4 +1,5 @@
 ﻿using API_Usuario.Context;
+using API_Usuario.DTOs;
 using API_Usuario.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,8 +23,8 @@ namespace API_Usuario.Services
 
         public async Task<string> AddMotivoDesligamento(MotivoDesligamentos dto)
         {
-            var cargo = await _Context.MotivoDesligamentos.FindAsync(dto.Funcionario);
-            if (cargo == null) return "Desligamento não encontrado";
+            var motivo = await _Context.MotivoDesligamentos.FindAsync(dto.Funcionario);
+            if (motivo == null) return "Desligamento não encontrado";
 
             MotivoDesligamentos motivoDesligamentos = new MotivoDesligamentos();
             motivoDesligamentos.Motivo = dto.Motivo;
@@ -35,5 +36,32 @@ namespace API_Usuario.Services
   
         }
 
+        public async Task<string> UpdateMotivoDesligamento(int id, MotivoDesligamentoDTOs dto)
+        {
+            var motivoDesligamento = await _Context.Desligamentos.Include(f => f.Id).FirstOrDefaultAsync(f => f.Id.Equals(id));
+            if (motivoDesligamento == null) return "Desligamento não encontrado";
+
+            var motivo = await _Context.MotivoDesligamentos.FindAsync(dto.DesligamentoId);
+            if (motivo == null) return "Motivo não encontrado";
+
+            motivo.Motivo = dto.Motivo;
+            motivo.Descricao = dto.Descricao;
+
+            _Context.MotivoDesligamentos.Update(motivo);
+            await _Context.SaveChangesAsync();
+            return "Motivo atualizado com sucesso";
+        }
+
+        public async Task<string> DeleteMotivoDesligamento(int id)
+        {
+            var motivo = await _Context.MotivoDesligamentos.FindAsync(id);
+            if (motivo == null) return "Motivo não encontrado";
+
+            _Context.MotivoDesligamentos.Remove(motivo);
+            await _Context.SaveChangesAsync();
+            return "Motivo removido com sucesso";
+        }
     }
+
+}
 }
