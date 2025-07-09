@@ -14,7 +14,7 @@ namespace API_Usuario.Services
             _context = context;
         }
 
-        public async Task<List<Cargo>> GetAllDesligamentos()
+        public async Task<List<Cargo>> GetAllCargo()
         {
             return await _context.Cargos
                 .Include(f => f.Funcionarios)
