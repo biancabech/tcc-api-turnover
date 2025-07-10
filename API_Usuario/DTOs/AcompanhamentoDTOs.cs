@@ -4,7 +4,7 @@ namespace API_Usuario.DTOs
 {
     public class AcompanhamentoDTOs
     {
-        public string Data { get; set; }
+        public DateTime Data  { get; set; }
 
         public string FeedEmpresa { get; set; }
 

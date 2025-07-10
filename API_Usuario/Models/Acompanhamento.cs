@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
 
-        public string Data {  get; set; }
+        public DateTime Data {  get; set; }
 
         public string FeedEmpresa { get; set; }
 

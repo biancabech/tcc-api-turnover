@@ -19,6 +19,8 @@ namespace API_Usuario.Context
 
         public DbSet<MotivoDesligamentos> MotivoDesligamentos { get; set; }
 
+        public DbSet<Setor> Setores { get; set; }    
+
 
     }
 }
