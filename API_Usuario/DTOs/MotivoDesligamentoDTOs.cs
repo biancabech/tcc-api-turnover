@@ -7,5 +7,6 @@
         public string Descricao { get; set; }
 
         public Guid DesligamentoId { get; set; }
+        public Guid FuncionarioId { get; set; }
     }
 }

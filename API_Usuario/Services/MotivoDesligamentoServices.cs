@@ -21,19 +21,22 @@ namespace API_Usuario.Services
                 .ToListAsync();
         }
 
-        public async Task<string> AddMotivoDesligamento(MotivoDesligamentos dto)
+        public async Task<string> AddMotivoDesligamento(MotivoDesligamentoDTOs dto)
         {
-            var motivo = await _Context.MotivoDesligamentos.FindAsync(dto.Funcionario);
+            var motivo = await _Context.MotivoDesligamentos.FindAsync(dto.FuncionarioId);
             if (motivo == null) return "Desligamento não encontrado";
+
+            var funcionario = await _Context.Funcionarios.FindAsync(dto.FuncionarioId);
+            if (funcionario == null) return "Funcionário não encontrado";
 
             MotivoDesligamentos motivoDesligamentos = new MotivoDesligamentos();
             motivoDesligamentos.Motivo = dto.Motivo;
             motivoDesligamentos.Descricao = dto.Descricao;
-            motivoDesligamentos.Funcionario = dto.Funcionario;
+            motivoDesligamentos.Funcionario = funcionario;
 
+            _Context.MotivoDesligamentos.Add(motivoDesligamentos);
             await _Context.SaveChangesAsync();
-            return ("Motivo do Desligamento foi adicionado com Sucesso!");
-  
+            return "Motivo do Desligamento foi adicionado com Sucesso!";
         }
 
         public async Task<string> UpdateMotivoDesligamento(int id, MotivoDesligamentoDTOs dto)
@@ -64,4 +67,4 @@ namespace API_Usuario.Services
     }
 
 }
-}
+
