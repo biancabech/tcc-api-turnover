@@ -24,16 +24,23 @@ namespace API_Usuario.Services
         }
         public async Task<string> AddAcompanhamento(AcompanhamentoDTOs dto)
         {
-            var funcionario = await _context.Acompanhamentos.FindAsync(dto.FuncionarioId);
+            var funcionario = await _context.Funcionarios.FindAsync(dto.FuncionarioId);
             if (funcionario == null) return "Funcionario não encontrado";
 
             Acompanhamento acompanhamento = new Acompanhamento();
             acompanhamento.Data = dto.Data;
-            acompanhamento.FeedEmpresa = dto.FeedEmpresa;
-            acompanhamento.FeedFuncion = dto.FeedFuncion;
-            acompanhamento.DataFeedBack = dto.DataFeedBack;
-            acompanhamento.PontosAltos = dto.PontosAltos;
-            acompanhamento.PontosBaixos = dto.PontosBaixos;
+            acompanhamento.Proatividade = dto.Proatividade;
+            acompanhamento.Qualidade = dto.Qualidade;
+            acompanhamento.Prazos = dto.Prazos;
+            acompanhamento.Comunicacao = dto.Comunicacao;
+            acompanhamento.TrabalhoEquipe = dto.TrabalhoEquipe;
+            acompanhamento.Adaptabilidade = dto.Adaptabilidade;
+            acompanhamento.Feedback = dto.Feedback;
+            acompanhamento.Treinamento = dto.Treinamento;
+            acompanhamento.Plano = dto.Plano;
+            acompanhamento.Avaliador = dto.Avaliador;
+            acompanhamento.Confirmacao = dto.Confirmacao;
+            acompanhamento.Funcionario = funcionario;
 
             
 
@@ -51,11 +58,19 @@ namespace API_Usuario.Services
             {
 
                 Data = dto.Data,
-                DataFeedBack = dto.DataFeedBack,
-                FeedEmpresa = dto.FeedEmpresa,
-                FeedFuncion = dto.FeedFuncion,
-                PontosBaixos = dto.PontosBaixos,
-                PontosAltos = dto.PontosAltos
+                Produtividade = dto.Produtividade,
+                Qualidade = dto.Qualidade,
+                Prazos = dto.Prazos,
+                Comunicacao = dto.Comunicacao,
+                TrabalhoEquipe = dto.TrabalhoEquipe,
+                Adaptabilidade = dto.Adaptabilidade,
+                Proatividade = dto.Proatividade,
+                Feedback = dto.Feedback,
+                Treinamento = dto.Treinamento,
+                Plano = dto.Plano,
+                Avaliador = dto.Avaliador,
+                Confirmacao = dto.Confirmacao,
+                Funcionario = dto.Funcionario
             };
                 _context.Acompanhamentos.Update(acompanhamento);
                 await _context.SaveChangesAsync();
