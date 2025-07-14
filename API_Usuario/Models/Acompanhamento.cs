@@ -16,8 +16,6 @@
 
         public string PontosBaixos { get; set; }
 
-
-
         public Funcionario Funcionario { get; set; }
     }
 }

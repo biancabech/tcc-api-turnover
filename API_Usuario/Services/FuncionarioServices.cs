@@ -18,6 +18,7 @@ namespace API_Usuario.Services
         {
             return await _context.Funcionarios
                 .Include(f => f.Cargo)
+                .Include(f => f.Setor)
                 .ToListAsync();
         }
 

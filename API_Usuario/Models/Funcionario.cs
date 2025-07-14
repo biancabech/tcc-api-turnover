@@ -15,6 +15,7 @@ namespace API_Usuario.Models
         public string Email { get; set; }
         public Guid CargoId { get; set; }
         public Cargo Cargo { get; set; }
+        public Guid SetorId { get; set; }
         public Setor Setor { get; set; }
     }
 }
