@@ -29,7 +29,7 @@ namespace API_Usuario.Controllers
 
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] SetorDTO dto)
+        public async Task<ActionResult> Update(Guid id, [FromBody] SetorDTO dto)
         {
             string resultado = await _services.UpdateSetor(id, dto);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);

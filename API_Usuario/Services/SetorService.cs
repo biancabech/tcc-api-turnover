@@ -17,32 +17,27 @@ namespace API_Usuario.Services
         public async Task<List<Setor>> GetAllSetor()
         {
             return await _context.Setores
-                .Include(f => f.NomeSetor)
                 .ToListAsync();
         }
         public async Task<string> AddSetor(SetorDTO dto)
         {
-            var funcionario = await _context.Funcionarios.FindAsync(dto.FuncionarioId);
-            if (funcionario == null) return "Funcionario não encontrado";
-
             Setor setor = new Setor();
+
+            setor.Id = Guid.NewGuid();
             setor.NomeSetor = dto.NomeSetor;
-            setor.Funcionarios = (ICollection<Funcionario>)funcionario;
+            
 
             await _context.Setores.AddAsync(setor);
             await _context.SaveChangesAsync();
             return "Setor adicionado com sucesso!";
         }
-        public async Task<string> UpdateSetor(int id, SetorDTO dto)
+
+        public async Task<string> UpdateSetor(Guid id, SetorDTO dto)
         {
-            var setor = await _context.Setores.Include(f => f.Funcionarios).FirstOrDefaultAsync(f => f.Id.Equals(id));
+            var setor = await _context.Setores.FirstOrDefaultAsync(s => s.Id == id);
             if (setor == null) return "Setor não encontrado";
 
-            var funcionario = await _context.Funcionarios.FindAsync(dto.FuncionarioId);
-            if (funcionario == null) return "Cargo não encontrado";
-
             setor.NomeSetor = dto.NomeSetor;
-            setor.Funcionarios = (ICollection<Funcionario>)funcionario;
 
             _context.Setores.Update(setor);
             await _context.SaveChangesAsync();

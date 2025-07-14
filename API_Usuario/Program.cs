@@ -43,6 +43,8 @@ builder.Services.AddScoped<DesligamentoServices>();
 builder.Services.AddScoped<FitCulturalServices>();
 builder.Services.AddScoped<FuncionarioServices>();
 builder.Services.AddScoped<MotivoDesligamentos>();
+builder.Services.AddScoped<SetorService>();
+builder.Services.AddScoped<CargoService>();
 
 
 var app = builder.Build();

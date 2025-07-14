@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using System.Text.Json.Serialization;
 
 namespace API_Usuario.Models
 {
@@ -8,6 +9,7 @@ namespace API_Usuario.Models
 
         public string NomeSetor { get; set; }
 
+        [JsonIgnore]
         public ICollection<Funcionario> Funcionarios { get; set; } = new List<Funcionario>();
 
         
