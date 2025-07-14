@@ -38,7 +38,7 @@ namespace API_Usuario.Services
             await _context.SaveChangesAsync();
             return "Desligamento adicionado com sucesso!";
         }
-        public async Task<string> UpdateDesligamento(int id, DesligamentoDTOs dto)
+        public async Task<string> UpdateDesligamento(Guid id, DesligamentoDTOs dto)
         {
             var desligamento = await _context.Desligamentos.Include(f => f.Funcionario).FirstOrDefaultAsync(f => f.Id.Equals(id));
             if (desligamento == null) return "Desligamento não encontrado";
@@ -56,7 +56,7 @@ namespace API_Usuario.Services
             await _context.SaveChangesAsync();
             return "Desligamento atualizado com sucesso!";
         }
-        public async Task<string> DeleteDesligamento(int id)
+        public async Task<string> DeleteDesligamento(Guid id)
         {
             var desligamento = await _context.Desligamentos.FindAsync(id);
             if (desligamento == null) return "Desligamento não encontrado";

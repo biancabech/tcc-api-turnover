@@ -30,7 +30,7 @@ namespace API_Usuario.Controllers
 
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] FuncionarioDTOs dto)
+        public async Task<ActionResult> Update(Guid id, [FromBody] FuncionarioDTOs dto)
         {
             string resultado = await _services.UpdateFuncionario(id, dto);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);
@@ -38,7 +38,7 @@ namespace API_Usuario.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             string resultado = await _services.DeleteFuncionario(id);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);

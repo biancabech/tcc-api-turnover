@@ -42,7 +42,7 @@ namespace API_Usuario.Services
             return "Acompanhamento adicionado com Sucesso!";
         }
 
-        public async Task<string> UpdateAcompanhamento(int id, Acompanhamento dto)
+        public async Task<string> UpdateAcompanhamento(Guid id, Acompanhamento dto)
         {
             var acompanhamento = await _context.Acompanhamentos.Include(f => f.Funcionario).FirstOrDefaultAsync(f => f.Id.Equals(id));
             if (acompanhamento == null) return "Acompanhamento não encontrado";
@@ -61,7 +61,7 @@ namespace API_Usuario.Services
                 await _context.SaveChangesAsync();
                 return "Motivo do Desligamento foi Atualizado!";
             }
-        public async Task<string> DeleteAcompanhamento(int id)
+        public async Task<string> DeleteAcompanhamento(Guid id)
         {
             var acompanhamento = await _context.Acompanhamentos.FindAsync(id);
             if (acompanhamento == null) return "Acompanhamento não encontrado";
@@ -71,7 +71,7 @@ namespace API_Usuario.Services
             return "Acompanhamento removido com sucesso";
         }
 
-        internal async Task<string> UpdateAcompanhamento(int id, AcompanhamentoDTOs dto)
+        internal async Task<string> UpdateAcompanhamento(Guid id, AcompanhamentoDTOs dto)
         {
             throw new NotImplementedException();
         }

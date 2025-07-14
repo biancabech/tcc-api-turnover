@@ -37,7 +37,7 @@ namespace API_Usuario.Services
             return "Fit Cultural adicionado com sucesso!";
 
         }
-        public async Task<string> UpdateFitCultural(int id, FitCulturalDTOs dto)
+        public async Task<string> UpdateFitCultural(Guid id, FitCulturalDTOs dto)
         {
             var fitCultural = await _context.FitCulturals.Include(f => f.Funcionario).FirstOrDefaultAsync(f => f.Id.Equals(id));
             if (fitCultural == null) return "Fit Cultural não encontrado";
@@ -53,7 +53,7 @@ namespace API_Usuario.Services
             await _context.SaveChangesAsync();
             return "Fit Cultural atualizado com sucesso";
         }
-        public async Task<string> DeleteFitCultural(int id)
+        public async Task<string> DeleteFitCultural(Guid id)
         {
             var fitCultural = await _context.FitCulturals.FindAsync(id);
             if (fitCultural == null) return "Fit Cultural não encontrado";

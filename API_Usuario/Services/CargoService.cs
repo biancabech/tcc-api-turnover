@@ -44,7 +44,7 @@ namespace API_Usuario.Services
             await _context.SaveChangesAsync();
             return "Cargo atualizado com sucesso!";
         }
-        public async Task<string> DeleteCargo(int id)
+        public async Task<string> DeleteCargo(Guid id)
         {
             var cargo = await _context.Cargos.FindAsync(id);
             if (cargo == null) return "Cargo não encontrado";

@@ -30,7 +30,7 @@ namespace API_Usuario.Controllers
 
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, [FromBody] MotivoDesligamentoDTOs dto)
+        public async Task<ActionResult> Update(Guid id, [FromBody] MotivoDesligamentoDTOs dto)
         {
             string resultado = await _services.UpdateMotivoDesligamento(id, dto);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);

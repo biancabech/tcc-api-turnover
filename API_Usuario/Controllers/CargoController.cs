@@ -36,7 +36,7 @@ namespace API_Usuario.Controllers
             return Ok(resultado);
         }
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             string resultado = await _services.DeleteCargo(id);
             if (resultado.Contains("Não encontrado")) return NotFound(resultado);

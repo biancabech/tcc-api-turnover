@@ -48,7 +48,7 @@ namespace API_Usuario.Services
             return "Funcionário adicionado com sucesso!";
         }
 
-        public async Task<string> UpdateFuncionario(int id, FuncionarioDTOs dto)
+        public async Task<string> UpdateFuncionario(Guid id, FuncionarioDTOs dto)
         {
             var funcionario = await _context.Funcionarios.Include(f => f.Cargo).FirstOrDefaultAsync(f => f.Id.Equals(id));
             if (funcionario == null) return "Funcionário não encontrado";
@@ -76,7 +76,7 @@ namespace API_Usuario.Services
             return "Funcionário atualizado com sucesso";
         }
 
-        public async Task<string> DeleteFuncionario(int id)
+        public async Task<string> DeleteFuncionario(Guid id)
         {
             var funcionario = await _context.Funcionarios.FindAsync(id);
             if (funcionario == null) return "Funcionário não encontrado";

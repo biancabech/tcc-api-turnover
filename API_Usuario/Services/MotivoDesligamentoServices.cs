@@ -63,6 +63,11 @@ namespace API_Usuario.Services
             await _Context.SaveChangesAsync();
             return "Motivo removido com sucesso";
         }
+
+        internal async Task<string> UpdateMotivoDesligamento(Guid id, MotivoDesligamentoDTOs dto)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

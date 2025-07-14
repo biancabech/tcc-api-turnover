@@ -53,5 +53,10 @@ namespace API_Usuario.Services
             await _context.SaveChangesAsync();
             return "Setor removido com sucesso";
         }
+
+        internal async Task<string> DeleteSetor(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
