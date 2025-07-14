@@ -54,7 +54,7 @@ namespace API_Usuario.Services
             return "Motivo atualizado com sucesso";
         }
 
-        public async Task<string> DeleteMotivoDesligamento(int id)
+        public async Task<string> DeleteMotivoDesligamento(Guid id)
         {
             var motivo = await _Context.MotivoDesligamentos.FindAsync(id);
             if (motivo == null) return "Motivo não encontrado";

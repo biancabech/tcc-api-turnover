@@ -42,7 +42,7 @@ builder.Services.AddScoped<AcompanhamentoServices>();
 builder.Services.AddScoped<DesligamentoServices>();
 builder.Services.AddScoped<FitCulturalServices>();
 builder.Services.AddScoped<FuncionarioServices>();
-builder.Services.AddScoped<MotivoDesligamentos>();
+builder.Services.AddScoped<MotivoDesligamentoServices>();
 builder.Services.AddScoped<SetorService>();
 builder.Services.AddScoped<CargoService>();
 

@@ -2,7 +2,7 @@
 {
     public class Acompanhamento
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         public DateTime Data {  get; set; }
 
