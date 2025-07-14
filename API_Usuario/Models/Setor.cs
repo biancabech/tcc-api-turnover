@@ -8,7 +8,7 @@ namespace API_Usuario.Models
 
         public string NomeSetor { get; set; }
 
-        public ICollection<Funcionario> Funcionarios { get; set; }
+        public ICollection<Funcionario> Funcionarios { get; set; } = new List<Funcionario>();
 
         
     }

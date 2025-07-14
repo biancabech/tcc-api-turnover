@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Usuario.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20250707132747_FirstMigration")]
+    [Migration("20250714114010_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -31,9 +31,8 @@ namespace API_Usuario.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Data")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("DataFeedBack")
                         .IsRequired()
@@ -143,6 +142,10 @@ namespace API_Usuario.Migrations
                     b.Property<Guid>("CargoId")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime>("DataAdmi")
                         .HasColumnType("datetime(6)");
 
@@ -164,9 +167,14 @@ namespace API_Usuario.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<Guid>("SetorId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CargoId");
+
+                    b.HasIndex("SetorId");
 
                     b.ToTable("Funcionarios");
                 });
@@ -198,6 +206,21 @@ namespace API_Usuario.Migrations
                     b.HasIndex("FuncionarioId");
 
                     b.ToTable("MotivoDesligamentos");
+                });
+
+            modelBuilder.Entity("API_Usuario.Models.Setor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("NomeSetor")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Setores");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.Acompanhamento", b =>
@@ -241,7 +264,15 @@ namespace API_Usuario.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API_Usuario.Models.Setor", "Setor")
+                        .WithMany("Funcionarios")
+                        .HasForeignKey("SetorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Cargo");
+
+                    b.Navigation("Setor");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.MotivoDesligamentos", b =>
@@ -264,6 +295,11 @@ namespace API_Usuario.Migrations
                 });
 
             modelBuilder.Entity("API_Usuario.Models.Cargo", b =>
+                {
+                    b.Navigation("Funcionarios");
+                });
+
+            modelBuilder.Entity("API_Usuario.Models.Setor", b =>
                 {
                     b.Navigation("Funcionarios");
                 });

@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_Usuario.Controllers
 {
-
+    [Route("api/[controller]")]
+    [ApiController]
     public class SetorController : ControllerBase
     {
         public readonly SetorService _services;

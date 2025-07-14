@@ -1,4 +1,5 @@
-﻿using API_Usuario.Models;
+﻿using System.Text.Json.Serialization;
+using API_Usuario.Models;
 
 namespace API_Usuario.DTOs
 {
@@ -6,8 +7,8 @@ namespace API_Usuario.DTOs
     {
         public string NomeSetor { get; set; }
 
-
-
+        [JsonIgnore]
+        public Funcionario Funcionario { get; set; }
         public Guid FuncionarioId { get; set; }
     }
 }

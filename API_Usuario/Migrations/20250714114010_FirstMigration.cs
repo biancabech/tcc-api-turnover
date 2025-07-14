@@ -29,6 +29,20 @@ namespace API_Usuario.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Setores",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    NomeSetor = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Setores", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Funcionarios",
                 columns: table => new
                 {
@@ -37,12 +51,15 @@ namespace API_Usuario.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Genero = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Cpf = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     DataNasci = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DataAdmi = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DataDemi = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CargoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    CargoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    SetorId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -53,6 +70,12 @@ namespace API_Usuario.Migrations
                         principalTable: "Cargos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Funcionarios_Setores_SetorId",
+                        column: x => x.SetorId,
+                        principalTable: "Setores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -61,8 +84,7 @@ namespace API_Usuario.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Data = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Data = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     FeedEmpresa = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FeedFuncion = table.Column<string>(type: "longtext", nullable: false)
@@ -186,6 +208,11 @@ namespace API_Usuario.Migrations
                 column: "CargoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Funcionarios_SetorId",
+                table: "Funcionarios",
+                column: "SetorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MotivoDesligamentos_DesligamentoId",
                 table: "MotivoDesligamentos",
                 column: "DesligamentoId");
@@ -216,6 +243,9 @@ namespace API_Usuario.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cargos");
+
+            migrationBuilder.DropTable(
+                name: "Setores");
         }
     }
 }
