@@ -18,6 +18,8 @@ namespace API_Usuario.Services
         {
             return await _context.FitCulturals
                 .Include(f => f.Funcionario)
+                .Include (f => f.Funcionario.Setor)
+                .Include (f => f.Funcionario.Cargo)
                 .ToListAsync();
         }
         public async Task<string> AddFitCultural(FitCulturalDTOs dto)

@@ -17,7 +17,6 @@ namespace API_Usuario.Services
         public async Task<List<MotivoDesligamentos>> GetAllMotivoDesligamento()
         {
             return await  _Context.MotivoDesligamentos
-                .Include(f => f.Desligamento)
                 .ToListAsync();
         }
 

@@ -18,6 +18,8 @@ namespace API_Usuario.Services
         {
             return await _context.Desligamentos
                 .Include(f => f.Funcionario)
+                .Include (f => f.Funcionario.Setor)
+                .Include (f => f.Funcionario.Cargo)
                 .ToListAsync();
         }
         public async Task<string> AddDesligamento(DesligamentoDTOs dto)
