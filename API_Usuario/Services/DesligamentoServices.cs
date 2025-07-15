@@ -49,7 +49,7 @@ namespace API_Usuario.Services
             desligamento.DataDesligamento = DateTime.Parse(dto.DataDesligamento);
             desligamento.isGrave = dto.isGrave;
             desligamento.Descricao = dto.Descricao;
-            desligamento.FeedDesligamento = dto.Descricao;
+            desligamento.FeedDesligamento = dto.FeedDesligamento;
             desligamento.Funcionario = funcionario;
 
             _context.Desligamentos.Update(desligamento);
