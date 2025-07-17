@@ -8,6 +8,17 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var AllowSites = "_AllowSites";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowSites, policy =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();
+    });
+});
+
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
 builder.Services.AddAuthentication(options =>
 {
@@ -55,6 +66,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(Allow);
 }
 
 app.UseHttpsRedirection();
