@@ -3,6 +3,7 @@ using API_Usuario.Context;
 using API_Usuario.Models;
 using API_Usuario.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -66,8 +67,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors(Allow);
+    
 }
+
+app.UseCors(AllowSites);
 
 app.UseHttpsRedirection();
 
