@@ -26,7 +26,7 @@ namespace API_Usuario.Controllers
         {
             string resultado = await _services.AddFuncionario(dto);
             if (resultado.Contains("Não")) return BadRequest(resultado);
-            return Ok(resultado);
+            return Ok(new { mensagem = resultado });
 
         }
         [HttpPut("{id}")]
@@ -34,7 +34,7 @@ namespace API_Usuario.Controllers
         {
             string resultado = await _services.UpdateFuncionario(id, dto);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(mensagem = resultado);
         }
 
         [HttpDelete("{id}")]
@@ -42,7 +42,7 @@ namespace API_Usuario.Controllers
         {
             string resultado = await _services.DeleteFuncionario(id);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(mensagem = resultado);
         }
     }
 }

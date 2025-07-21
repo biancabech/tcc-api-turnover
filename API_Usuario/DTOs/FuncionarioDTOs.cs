@@ -12,7 +12,7 @@
 
         public string DataAdmi { get; set; }
 
-        public string DataDemi { get; set; }
+        public string? DataDemi { get; set; }
 
         public string Email { get; set; }
 
