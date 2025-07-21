@@ -15,8 +15,15 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: AllowSites, policy =>
     {
-        policy.AllowAnyOrigin();
-        policy.AllowAnyMethod();
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+
+        policy.WithOrigins("https://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -67,7 +74,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    
+
 }
 
 app.UseCors(AllowSites);
