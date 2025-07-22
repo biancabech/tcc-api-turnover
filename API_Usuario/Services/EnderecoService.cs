@@ -14,8 +14,8 @@ namespace API_Usuario.Services
 
         public async Task<List<Endereco>> GetAllEndereco()
         {
-            return await _context.Endereco
-                .Incluede
+            return await _context.Enderecos
+                
                 
                
         }

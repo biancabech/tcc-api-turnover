@@ -21,6 +21,8 @@ namespace API_Usuario.Context
 
         public DbSet<Setor> Setores { get; set; }    
 
+        public DbSet<Endereco> Enderecos { get; set; }
+
 
     }
 }
