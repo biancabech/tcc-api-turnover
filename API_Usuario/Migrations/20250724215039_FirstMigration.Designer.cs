@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Usuario.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20250722112641_SecondMigration")]
-    partial class SecondMigration
+    [Migration("20250724215039_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,6 +133,44 @@ namespace API_Usuario.Migrations
                     b.ToTable("Desligamentos");
                 });
 
+            modelBuilder.Entity("API_Usuario.Models.Endereco", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Bairro")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Cep")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Complemento")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Rua")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Enderecos");
+                });
+
             modelBuilder.Entity("API_Usuario.Models.FitCultural", b =>
                 {
                     b.Property<Guid>("Id")
@@ -183,6 +221,9 @@ namespace API_Usuario.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<Guid>("EnderecoId")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("Genero")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -197,6 +238,8 @@ namespace API_Usuario.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CargoId");
+
+                    b.HasIndex("EnderecoId");
 
                     b.HasIndex("SetorId");
 
@@ -238,7 +281,7 @@ namespace API_Usuario.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("NomeSetor")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -288,6 +331,12 @@ namespace API_Usuario.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API_Usuario.Models.Endereco", "Endereco")
+                        .WithMany()
+                        .HasForeignKey("EnderecoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("API_Usuario.Models.Setor", "Setor")
                         .WithMany("Funcionarios")
                         .HasForeignKey("SetorId")
@@ -295,6 +344,8 @@ namespace API_Usuario.Migrations
                         .IsRequired();
 
                     b.Navigation("Cargo");
+
+                    b.Navigation("Endereco");
 
                     b.Navigation("Setor");
                 });

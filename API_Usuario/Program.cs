@@ -64,6 +64,7 @@ builder.Services.AddScoped<FuncionarioServices>();
 builder.Services.AddScoped<MotivoDesligamentoServices>();
 builder.Services.AddScoped<SetorService>();
 builder.Services.AddScoped<CargoService>();
+builder.Services.AddScoped<EnderecoService>();
 
 
 var app = builder.Build();

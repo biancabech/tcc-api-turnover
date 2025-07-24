@@ -44,7 +44,7 @@ namespace API_Usuario.Services
             return "Setor atualizado com sucesso!";
         }
 
-        public async Task<string> DeleteSetor(int id)
+        public async Task<string> DeleteSetor(Guid id)
         {
             var setor = await _context.Setores.FindAsync(id);
             if (setor == null) return "Setor não encontrado";
@@ -52,11 +52,6 @@ namespace API_Usuario.Services
             _context.Setores.Remove(setor);
             await _context.SaveChangesAsync();
             return "Setor removido com sucesso";
-        }
-
-        internal async Task<string> DeleteSetor(Guid id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

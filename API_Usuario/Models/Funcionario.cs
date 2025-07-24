@@ -17,6 +17,7 @@ namespace API_Usuario.Models
         public Cargo Cargo { get; set; }
         public Guid SetorId { get; set; }
         public Setor Setor { get; set; }
+        public Guid EnderecoId { get; set; }
         public Endereco Endereco { get; set; }
 
     }

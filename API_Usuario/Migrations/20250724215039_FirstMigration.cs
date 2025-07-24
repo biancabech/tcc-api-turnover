@@ -29,11 +29,37 @@ namespace API_Usuario.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Enderecos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Rua = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Numero = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Complemento = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Bairro = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Cidade = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Estado = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Cep = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Enderecos", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Setores",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    NomeSetor = table.Column<string>(type: "longtext", nullable: false)
+                    Nome = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -59,7 +85,8 @@ namespace API_Usuario.Migrations
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CargoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    SetorId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    SetorId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    EnderecoId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -68,6 +95,12 @@ namespace API_Usuario.Migrations
                         name: "FK_Funcionarios_Cargos_CargoId",
                         column: x => x.CargoId,
                         principalTable: "Cargos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Funcionarios_Enderecos_EnderecoId",
+                        column: x => x.EnderecoId,
+                        principalTable: "Enderecos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -85,15 +118,25 @@ namespace API_Usuario.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Data = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    FeedEmpresa = table.Column<string>(type: "longtext", nullable: false)
+                    Produtividade = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FeedFuncion = table.Column<string>(type: "longtext", nullable: false)
+                    Qualidade = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DataFeedBack = table.Column<string>(type: "longtext", nullable: false)
+                    Prazos = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PontosAltos = table.Column<string>(type: "longtext", nullable: false)
+                    Comunicacao = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    TrabalhoEquipe = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Adaptabilidade = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Proatividade = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Feedback = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PontosBaixos = table.Column<string>(type: "longtext", nullable: false)
+                    Treinamento = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Plano = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Avaliador = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Confirmacao = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FuncionarioId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
@@ -208,6 +251,11 @@ namespace API_Usuario.Migrations
                 column: "CargoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Funcionarios_EnderecoId",
+                table: "Funcionarios",
+                column: "EnderecoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Funcionarios_SetorId",
                 table: "Funcionarios",
                 column: "SetorId");
@@ -243,6 +291,9 @@ namespace API_Usuario.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cargos");
+
+            migrationBuilder.DropTable(
+                name: "Enderecos");
 
             migrationBuilder.DropTable(
                 name: "Setores");
