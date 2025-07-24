@@ -1,5 +1,6 @@
 ﻿using API_Usuario.Context;
 using API_Usuario.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_Usuario.Services
 {
@@ -15,9 +16,8 @@ namespace API_Usuario.Services
         public async Task<List<Endereco>> GetAllEndereco()
         {
             return await _context.Enderecos
-                
-                
-               
+                .ToListAsync();
+
         }
     }
 }

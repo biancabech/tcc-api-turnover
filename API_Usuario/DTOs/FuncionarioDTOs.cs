@@ -1,4 +1,6 @@
-﻿namespace API_Usuario.DTOs
+﻿using API_Usuario.Models;
+
+namespace API_Usuario.DTOs
 {
     public class FuncionarioDTOs
     {
@@ -15,10 +17,9 @@
         public string? DataDemi { get; set; }
 
         public string Email { get; set; }
-
         public Guid SetorId { get; set; }
-
         public Guid CargoId { get; set; }
+        public Guid EnderecoId {  get; set; }
 
     }
 }
