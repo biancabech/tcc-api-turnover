@@ -7,7 +7,7 @@ namespace API_Usuario.Models
     {
         public Guid Id { get; set; } = new Guid();
 
-        public string NomeSetor { get; set; }
+        public string Nome { get; set; }
 
         [JsonIgnore]
         public ICollection<Funcionario> Funcionarios { get; set; } = new List<Funcionario>();

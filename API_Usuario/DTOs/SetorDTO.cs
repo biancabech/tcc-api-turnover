@@ -5,6 +5,6 @@ namespace API_Usuario.DTOs
 {
     public class SetorDTO
     {
-        public string NomeSetor { get; set; }
+        public string Nome { get; set; }
     }
 }
