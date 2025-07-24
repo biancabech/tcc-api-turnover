@@ -24,7 +24,7 @@ namespace API_Usuario.Services
             Setor setor = new Setor();
 
             setor.Id = Guid.NewGuid();
-            setor.NomeSetor = dto.NomeSetor;
+            setor.Nome = dto.Nome;
             
 
             await _context.Setores.AddAsync(setor);
@@ -37,7 +37,7 @@ namespace API_Usuario.Services
             var setor = await _context.Setores.FirstOrDefaultAsync(s => s.Id == id);
             if (setor == null) return "Setor não encontrado";
 
-            setor.NomeSetor = dto.NomeSetor;
+            setor.Nome = dto.Nome;
 
             _context.Setores.Update(setor);
             await _context.SaveChangesAsync();
