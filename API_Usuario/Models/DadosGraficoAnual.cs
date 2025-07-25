@@ -11,6 +11,8 @@ namespace API_Usuario.Models
         public ICollection<LabeledValue<double>> HiringReasons { get; set; } = new List<LabeledValue<double>>();
         public ICollection<LabeledValue<double>> DepartmentsWithTerminations { get; set; } = new List<LabeledValue<double>>();
         public ICollection<LabeledValue<double>> PositionsWithTerminations { get; set; } = new List<LabeledValue<double>>();
+        public ICollection<string> Ano { get; set; }
+        public ICollection<LabeledValue<string>> Meses { get; set; }
         public int AdmittedCount { get; set; }
         public int TerminatedCount { get; set; }
     }
