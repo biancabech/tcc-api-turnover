@@ -29,6 +29,7 @@ namespace API_Usuario.Services
             endereco.Bairro = dto.Bairro;
             endereco.Cidade = dto.Cidade;
             endereco.Rua = dto.Rua;
+            endereco.Estado = dto.Estado;
             endereco.Complemento = dto.Complemento;
             endereco.Bairro = dto.Bairro;
 
@@ -46,6 +47,7 @@ namespace API_Usuario.Services
             endereco.Bairro = dto.Bairro;
             endereco.Cidade = dto.Cidade;
             endereco.Rua = dto.Rua;
+            endereco.Estado = dto.Rua;
             endereco.Complemento = dto.Complemento;
             endereco.Bairro = dto.Bairro;
 
