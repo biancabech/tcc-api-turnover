@@ -31,12 +31,16 @@ namespace API_Usuario.Services
             var setor = await _context.Setores.FindAsync(dto.SetorId);
             if (setor == null) return "Setor não encontrado";
 
+            var endereco = await _context.Enderecos.FindAsync(dto.EnderecoId);
+            if (endereco == null) return "Endereço não encontrado";
+
             Funcionario funcionario = new Funcionario();
             funcionario.Nome = dto.Nome;
             funcionario.Genero = dto.Genero;
             funcionario.Cpf = dto.Cpf;
             funcionario.Cargo = cargo;
             funcionario.Setor = setor;
+            funcionario.Endereco = endereco;
 
             funcionario.DataNasci = DateTime.Parse(dto.DataNasci);
             funcionario.DataAdmi = DateTime.Parse(dto.DataAdmi);

@@ -1,6 +1,7 @@
 ﻿using API_Usuario.Context;
 using API_Usuario.DTOs;
 using API_Usuario.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_Usuario.Services
@@ -19,6 +20,13 @@ namespace API_Usuario.Services
             return await _context.Setores
                 .ToListAsync();
         }
+
+        public async Task<Setor?> GetSetor(Guid id) {
+            var setor = await _context.Setores.FindAsync(id);
+
+            return setor;
+        }
+
         public async Task<string> AddSetor(SetorDTO dto)
         {
             Setor setor = new Setor();
