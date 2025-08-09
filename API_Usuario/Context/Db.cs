@@ -23,6 +23,8 @@ namespace API_Usuario.Context
 
         public DbSet<Endereco> Enderecos { get; set; }
 
+        public DbSet<DadosGraficoAnual> DadosGraficosAnuais { get; set; }
+
 
     }
 }
