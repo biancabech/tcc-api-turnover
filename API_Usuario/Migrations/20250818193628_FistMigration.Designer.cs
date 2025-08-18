@@ -3,7 +3,6 @@ using System;
 using API_Usuario.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -12,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Usuario.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20250724215039_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20250818193628_FistMigration")]
+    partial class FistMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,8 +21,6 @@ namespace API_Usuario.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("API_Usuario.Models.Acompanhamento", b =>
                 {
@@ -101,6 +98,27 @@ namespace API_Usuario.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cargos");
+                });
+
+            modelBuilder.Entity("API_Usuario.Models.DadosGraficoAnual", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("AdmittedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Ano")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("TerminatedCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DadosGraficosAnuais");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.Desligamento", b =>
@@ -246,6 +264,77 @@ namespace API_Usuario.Migrations
                     b.ToTable("Funcionarios");
                 });
 
+            modelBuilder.Entity("API_Usuario.Models.LabeledValue<double>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("DadosGraficoAnualId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("DadosGraficoAnualId1")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("DadosGraficoAnualId2")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("DadosGraficoAnualId3")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("DadosGraficoAnualId4")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("double");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DadosGraficoAnualId");
+
+                    b.HasIndex("DadosGraficoAnualId1");
+
+                    b.HasIndex("DadosGraficoAnualId2");
+
+                    b.HasIndex("DadosGraficoAnualId3");
+
+                    b.HasIndex("DadosGraficoAnualId4");
+
+                    b.ToTable("LabeledValue<double>");
+                });
+
+            modelBuilder.Entity("API_Usuario.Models.LabeledValue<string>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("DadosGraficoAnualId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("DadosGraficoAnualId1")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DadosGraficoAnualId");
+
+                    b.HasIndex("DadosGraficoAnualId1");
+
+                    b.ToTable("LabeledValue<string>");
+                });
+
             modelBuilder.Entity("API_Usuario.Models.MotivoDesligamentos", b =>
                 {
                     b.Property<Guid>("Id")
@@ -350,6 +439,40 @@ namespace API_Usuario.Migrations
                     b.Navigation("Setor");
                 });
 
+            modelBuilder.Entity("API_Usuario.Models.LabeledValue<double>", b =>
+                {
+                    b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
+                        .WithMany("DepartmentsWithTerminations")
+                        .HasForeignKey("DadosGraficoAnualId");
+
+                    b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
+                        .WithMany("HiringReasons")
+                        .HasForeignKey("DadosGraficoAnualId1");
+
+                    b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
+                        .WithMany("PositionsWithTerminations")
+                        .HasForeignKey("DadosGraficoAnualId2");
+
+                    b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
+                        .WithMany("TerminationReasons")
+                        .HasForeignKey("DadosGraficoAnualId3");
+
+                    b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
+                        .WithMany("TurnoverData")
+                        .HasForeignKey("DadosGraficoAnualId4");
+                });
+
+            modelBuilder.Entity("API_Usuario.Models.LabeledValue<string>", b =>
+                {
+                    b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
+                        .WithMany("Meses")
+                        .HasForeignKey("DadosGraficoAnualId");
+
+                    b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
+                        .WithMany("Units")
+                        .HasForeignKey("DadosGraficoAnualId1");
+                });
+
             modelBuilder.Entity("API_Usuario.Models.MotivoDesligamentos", b =>
                 {
                     b.HasOne("API_Usuario.Models.Desligamento", "Desligamento")
@@ -372,6 +495,23 @@ namespace API_Usuario.Migrations
             modelBuilder.Entity("API_Usuario.Models.Cargo", b =>
                 {
                     b.Navigation("Funcionarios");
+                });
+
+            modelBuilder.Entity("API_Usuario.Models.DadosGraficoAnual", b =>
+                {
+                    b.Navigation("DepartmentsWithTerminations");
+
+                    b.Navigation("HiringReasons");
+
+                    b.Navigation("Meses");
+
+                    b.Navigation("PositionsWithTerminations");
+
+                    b.Navigation("TerminationReasons");
+
+                    b.Navigation("TurnoverData");
+
+                    b.Navigation("Units");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.Setor", b =>

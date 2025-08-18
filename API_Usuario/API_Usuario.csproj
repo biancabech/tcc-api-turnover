@@ -28,8 +28,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.LiveShare" Version="1.1.57" />
     <PackageReference Include="Microsoft.VisualStudio.LiveShare.LanguageServices" Version="2.0.1" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
   </ItemGroup>
 
   <ItemGroup>

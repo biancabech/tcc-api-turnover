@@ -6,7 +6,5 @@ namespace API_Usuario.DTOs
     public class SetorDTO
     {
         public string Nome { get; set; }
-
-        public Guid FuncionarioId { get; set; }
     }
 }

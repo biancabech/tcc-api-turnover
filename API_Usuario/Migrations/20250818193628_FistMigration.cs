@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API_Usuario.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class FistMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,6 +25,22 @@ namespace API_Usuario.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cargos", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "DadosGraficosAnuais",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Ano = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AdmittedCount = table.Column<int>(type: "int", nullable: false),
+                    TerminatedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DadosGraficosAnuais", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -65,6 +81,79 @@ namespace API_Usuario.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Setores", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "LabeledValue<double>",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Value = table.Column<double>(type: "double", nullable: false),
+                    Label = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DadosGraficoAnualId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    DadosGraficoAnualId1 = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    DadosGraficoAnualId2 = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    DadosGraficoAnualId3 = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    DadosGraficoAnualId4 = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LabeledValue<double>", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LabeledValue<double>_DadosGraficosAnuais_DadosGraficoAnualId",
+                        column: x => x.DadosGraficoAnualId,
+                        principalTable: "DadosGraficosAnuais",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LabeledValue<double>_DadosGraficosAnuais_DadosGraficoAnualId1",
+                        column: x => x.DadosGraficoAnualId1,
+                        principalTable: "DadosGraficosAnuais",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LabeledValue<double>_DadosGraficosAnuais_DadosGraficoAnualId2",
+                        column: x => x.DadosGraficoAnualId2,
+                        principalTable: "DadosGraficosAnuais",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LabeledValue<double>_DadosGraficosAnuais_DadosGraficoAnualId3",
+                        column: x => x.DadosGraficoAnualId3,
+                        principalTable: "DadosGraficosAnuais",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LabeledValue<double>_DadosGraficosAnuais_DadosGraficoAnualId4",
+                        column: x => x.DadosGraficoAnualId4,
+                        principalTable: "DadosGraficosAnuais",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "LabeledValue<string>",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Value = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Label = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DadosGraficoAnualId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    DadosGraficoAnualId1 = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LabeledValue<string>", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LabeledValue<string>_DadosGraficosAnuais_DadosGraficoAnualId",
+                        column: x => x.DadosGraficoAnualId,
+                        principalTable: "DadosGraficosAnuais",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LabeledValue<string>_DadosGraficosAnuais_DadosGraficoAnualId1",
+                        column: x => x.DadosGraficoAnualId1,
+                        principalTable: "DadosGraficosAnuais",
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -261,6 +350,41 @@ namespace API_Usuario.Migrations
                 column: "SetorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LabeledValue<double>_DadosGraficoAnualId",
+                table: "LabeledValue<double>",
+                column: "DadosGraficoAnualId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LabeledValue<double>_DadosGraficoAnualId1",
+                table: "LabeledValue<double>",
+                column: "DadosGraficoAnualId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LabeledValue<double>_DadosGraficoAnualId2",
+                table: "LabeledValue<double>",
+                column: "DadosGraficoAnualId2");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LabeledValue<double>_DadosGraficoAnualId3",
+                table: "LabeledValue<double>",
+                column: "DadosGraficoAnualId3");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LabeledValue<double>_DadosGraficoAnualId4",
+                table: "LabeledValue<double>",
+                column: "DadosGraficoAnualId4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LabeledValue<string>_DadosGraficoAnualId",
+                table: "LabeledValue<string>",
+                column: "DadosGraficoAnualId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LabeledValue<string>_DadosGraficoAnualId1",
+                table: "LabeledValue<string>",
+                column: "DadosGraficoAnualId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MotivoDesligamentos_DesligamentoId",
                 table: "MotivoDesligamentos",
                 column: "DesligamentoId");
@@ -281,7 +405,16 @@ namespace API_Usuario.Migrations
                 name: "FitCulturals");
 
             migrationBuilder.DropTable(
+                name: "LabeledValue<double>");
+
+            migrationBuilder.DropTable(
+                name: "LabeledValue<string>");
+
+            migrationBuilder.DropTable(
                 name: "MotivoDesligamentos");
+
+            migrationBuilder.DropTable(
+                name: "DadosGraficosAnuais");
 
             migrationBuilder.DropTable(
                 name: "Desligamentos");
