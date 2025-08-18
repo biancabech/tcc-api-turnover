@@ -21,12 +21,21 @@ namespace API_Usuario.Controllers
         {
             return Ok(await _services.GetAllFuncionarios());
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(Guid id)
+        {
+            var funcionario = await _services.GetFuncionario(id);
+            if (funcionario == null) return NotFound("Funcionário não encontrado");
+            return Ok(funcionario);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] FuncionarioDTOs dto)
         {
             string resultado = await _services.AddFuncionario(dto);
             if (resultado.Contains("Não")) return BadRequest(resultado);
-            return Ok(new { mensagem = resultado });
+            return Ok(new { resultado });
 
         }
         [HttpPut("{id}")]
@@ -34,7 +43,7 @@ namespace API_Usuario.Controllers
         {
             string resultado = await _services.UpdateFuncionario(id, dto);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(new { resultado });
         }
 
         [HttpDelete("{id}")]
@@ -42,7 +51,7 @@ namespace API_Usuario.Controllers
         {
             string resultado = await _services.DeleteFuncionario(id);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(new { resultado });
         }
     }
 }

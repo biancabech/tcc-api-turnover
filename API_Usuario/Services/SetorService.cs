@@ -19,6 +19,12 @@ namespace API_Usuario.Services
             return await _context.Setores
                 .ToListAsync();
         }
+
+        public async Task<Setor?>
+            GetSetor(Guid id)
+        {
+            return await _context.Setores.FindAsync(id);
+        }
         public async Task<string> AddSetor(SetorDTO dto)
         {
             Setor setor = new Setor();

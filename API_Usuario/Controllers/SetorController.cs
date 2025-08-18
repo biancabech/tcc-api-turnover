@@ -20,20 +20,28 @@ namespace API_Usuario.Controllers
         {
             return Ok(await _services.GetAllSetor());
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(Guid id)
+        {
+            var setor = await _services.GetSetor(id);
+            if (setor == null) return NotFound("Setor não encontrado");
+            return Ok(setor);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] SetorDTO dto)
         {
             string resultado = await _services.AddSetor(dto);
             if (resultado.Contains("Não")) return BadRequest(resultado);
-            return Ok(resultado);
-
+            return Ok(new { resultado });
         }
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(Guid id, [FromBody] SetorDTO dto)
         {
             string resultado = await _services.UpdateSetor(id, dto);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(new { resultado });
         }
 
         [HttpDelete("{id}")]
@@ -41,7 +49,7 @@ namespace API_Usuario.Controllers
         {
             string resultado = await _services.DeleteSetor(id);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(new { resultado });
         }
     }
 }

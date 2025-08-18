@@ -20,6 +20,12 @@ namespace API_Usuario.Services
                 .Include(f => f.Funcionarios)
                 .ToListAsync();
         }
+
+        public async Task<Cargo?>  
+            GetCargo(Guid id)
+        {
+            return await _context.Cargos.FindAsync(id);
+        }
         public async Task<string> AddCargo(CargoDTOs dto)
         { 
 

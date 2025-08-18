@@ -23,6 +23,13 @@ namespace API_Usuario.Services
                 .ToListAsync();
         }
 
+        public async Task<Funcionario> 
+            GetFuncionario(Guid id)
+        {
+            return await _context.Funcionarios.FindAsync(id);
+
+        }
+
         public async Task<string> AddFuncionario(FuncionarioDTOs dto)
         {
             var cargo = await _context.Cargos.FindAsync(dto.CargoId);
