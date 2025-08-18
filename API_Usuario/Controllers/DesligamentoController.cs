@@ -21,6 +21,13 @@ namespace API_Usuario.Controllers
         {
             return Ok(await _services.GetAllDesligamentos());
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(Guid id)
+        {
+            var desligamento = await _services.GetDesligamento(id);
+            if (desligamento == null) return NotFound("Desligamento não encontrado");
+            return Ok(desligamento);
+        }
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] DesligamentoDTOs dto)
         {

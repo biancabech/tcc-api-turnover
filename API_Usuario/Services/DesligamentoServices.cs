@@ -22,6 +22,12 @@ namespace API_Usuario.Services
                 .Include (f => f.Funcionario.Cargo)
                 .ToListAsync();
         }
+
+        public async Task<Desligamento?> 
+            GetDesligamento(Guid id)
+        {
+            return await _context.Desligamentos.FindAsync(id);
+        }
         public async Task<string> AddDesligamento(DesligamentoDTOs dto)
         {
             var funcionario = await _context.Funcionarios.FindAsync(dto.FuncionarioId);
