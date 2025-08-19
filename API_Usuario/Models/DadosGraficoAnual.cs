@@ -6,11 +6,11 @@ namespace API_Usuario.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public ICollection<LabeledValue<string>> Units { get; set; } = new List<LabeledValue<string>>();
-        public ICollection<LabeledValue<double>> TurnoverData { get; set; } = new List<LabeledValue<double>>();
-        public ICollection<LabeledValue<double>> TerminationReasons { get; set; } = new List<LabeledValue<double>>();
-        public ICollection<LabeledValue<double>> HiringReasons { get; set; } = new List<LabeledValue<double>>();
-        public ICollection<LabeledValue<double>> DepartmentsWithTerminations { get; set; } = new List<LabeledValue<double>>();
-        public ICollection<LabeledValue<double>> PositionsWithTerminations { get; set; } = new List<LabeledValue<double>>();
+        public ICollection<LabeledValue<int>> TurnoverData { get; set; } = new List<LabeledValue<int>>();
+        public ICollection<LabeledValue<int>> TerminationReasons { get; set; } = new List<LabeledValue<int>>();
+        public ICollection<LabeledValue<int>> HiringReasons { get; set; } = new List<LabeledValue<int>>();
+        public ICollection<LabeledValue<int>> DepartmentsWithTerminations { get; set; } = new List<LabeledValue<int>>();
+        public ICollection<LabeledValue<int>> PositionsWithTerminations { get; set; } = new List<LabeledValue<int>>();
         public ICollection<string> Ano { get; set; }
         public ICollection<LabeledValue<string>> Meses { get; set; }
         public int AdmittedCount { get; set; }

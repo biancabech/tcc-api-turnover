@@ -13,42 +13,87 @@ namespace API_Usuario.Services
             _context = context;
         }
 
-        public async Task<List<DadosGraficoAnual>> GetAllGrafico()
+        public async Task<DadosGraficoAnual> GetGrafico()
         {
-            return await _context.DadosGraficosAnuais
-                .ToListAsync();
-        }
-        public async Task<string> AddGraficoAnual(DadosGraficoAnualDto dto)
-        {
-            DadosGraficoAnual dadosGraficoAnual = new DadosGraficoAnual();
-            dadosGraficoAnual.Ano = dto.Ano;
-            dadosGraficoAnual.Meses = dto.Meses;
+            List<LabeledValue<string>> turnoverPeriodos = await _context.Desligamentos.AsQueryable()
+                .GroupBy(d => new { d.DataDesligamento.Year, d.DataDesligamento.Month })
+                .Select(g => new LabeledValue<string>
+                {
+                    Label = $"{g.Key.Year}-{g.Key.Month:00}",
+                    Value = g.Count().ToString()
+                }).ToListAsync();
 
-            await _context.DadosGraficosAnuais.AddAsync(dadosGraficoAnual);
-            await _context.SaveChangesAsync();
-            return "Grafico adicionado com sucesso";
-        }
-        public async Task<string> UpdateGraficoAnual (Guid id, DadosGraficoAnualDto dto)
-        {
-            var dadosGraficoAnual = await _context.DadosGraficosAnuais.FirstOrDefaultAsync(d => d.Id == id);
-            if (dadosGraficoAnual == null) return "Grafico não encontrado";
+            List<LabeledValue<int>> motivosDesligamentos = await _context.Desligamentos.AsQueryable()
+                .GroupBy(d => d.Descricao)
+                //.Join(_context.MotivoDesligamentos.AsQueryable(),
+                //    d => d.Key,
+                //    m => m.Descricao,
+                //    (d, m) => new { d.Key, Count = d.Count(), m.Id })
+                .Select(g => new LabeledValue<int>
+                {
+                    Label = g.Key,
+                    Value = g.Count()
+                }).ToListAsync();
 
-            dadosGraficoAnual.Ano = dto.Ano;
-            dadosGraficoAnual.Meses = dto.Meses;
+            List<LabeledValue<int>> desligamentosPorSetor = await _context.Desligamentos.AsQueryable()
+                .Join(_context.Funcionarios.AsQueryable(),
+                    d => d.FuncionarioId,
+                    f => f.Id,
+                    (d, f) => new { d, f })
+                .Join(_context.Setores.AsQueryable(),
+                    df => df.f.SetorId,
+                    s => s.Id,
+                    (df, s) => new { df.d, s.Nome })
+                .GroupBy(d => d.Nome)
+                .Select(g => new LabeledValue<int>
+                {
+                    Label = g.Key,
+                    Value = g.Count()
+                }).ToListAsync();
 
-            _context.DadosGraficosAnuais.Update(dadosGraficoAnual);
-            await _context.SaveChangesAsync();
-            return "Grafico atualizado com sucesso";
+            List<LabeledValue<int>> desligamentosPorCargo = await _context.Desligamentos.AsQueryable()
+                .GroupBy(d => d.Descricao)
+                .Select(g => new LabeledValue<int>
+                {
+                    Label = g.Key,
+                    Value = g.Count()
+                }).ToListAsync();
 
-        }
-        public async Task<string> DeleteGrafico(Guid id)
-        {
-            var dadosGraficoAnual = await _context.DadosGraficosAnuais.FindAsync(id);
-            if (dadosGraficoAnual == null) return "Grafico não encontrado";
-            _context.DadosGraficosAnuais.Remove(dadosGraficoAnual);
-            await _context.SaveChangesAsync();
-            return "Grafico deletado com sucesso";
+            int qtdAdmitidos = await _context.Funcionarios.AsQueryable()
+                .Select(f => f.Id)
+                .Distinct()
+                .CountAsync();
 
+            int qtdDesligados = await _context.Desligamentos.AsQueryable()
+                .Select(d => d.Id)
+                .Distinct()
+                .CountAsync();
+
+            // retorna os dados do gráfico anual
+            return new DadosGraficoAnual
+            {
+                Units = turnoverPeriodos.Select(p => new LabeledValue<string>
+                {
+                    Label = p.Label,
+                    Value = p.Value
+                }).ToList(),
+                TurnoverData = turnoverPeriodos.Select(p => new LabeledValue<int>
+                {
+                    Label = p.Label,
+                    Value = int.Parse(p.Value)
+                }).ToList(),
+                TerminationReasons = motivosDesligamentos,
+                DepartmentsWithTerminations = desligamentosPorSetor,
+                PositionsWithTerminations = desligamentosPorCargo,
+                Ano = turnoverPeriodos.Select(p => p.Label.Split('-')[0]).Distinct().ToList(),
+                Meses = turnoverPeriodos.Select(p => new LabeledValue<string>
+                {
+                    Label = p.Label.Split('-')[1],
+                    Value = p.Label
+                }).Distinct().ToList(),
+                AdmittedCount = qtdAdmitidos,
+                TerminatedCount = qtdDesligados
+            };
         }
     }
 }
