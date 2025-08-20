@@ -27,17 +27,16 @@ namespace API_Usuario.Services
             return setor;
         }
 
-        public async Task<string> AddSetor(SetorDTO dto)
+        public async Task<Setor> AddSetor(SetorDTO dto)
         {
             Setor setor = new Setor();
 
             setor.Id = Guid.NewGuid();
             setor.Nome = dto.Nome;
             
-
             await _context.Setores.AddAsync(setor);
             await _context.SaveChangesAsync();
-            return "Setor adicionado com sucesso!";
+            return setor;
         }
 
         public async Task<string> UpdateSetor(Guid id, SetorDTO dto)

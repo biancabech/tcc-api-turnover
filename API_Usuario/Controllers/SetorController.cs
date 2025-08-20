@@ -1,6 +1,7 @@
 ﻿using API_Usuario.DTOs;
 using API_Usuario.Services;
 using Microsoft.AspNetCore.Mvc;
+using API_Usuario.Models;
 
 namespace API_Usuario.Controllers
 {
@@ -22,20 +23,20 @@ namespace API_Usuario.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> Get(Guid id)
+        public async Task<ActionResult> GetById(Guid id)
         {
             var result = await _services.GetSetor(id);
             if(result == null) return NotFound();
             return Ok(result);
         }
-
+         
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] SetorDTO dto)
         {
-            string resultado = await _services.AddSetor(dto);
-            if (resultado.Contains("Não")) return BadRequest(resultado);
-            return Ok(new { mensagem = resultado });
+            Setor setor = await _services.AddSetor(dto);
+            return Ok(setor);
         }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(Guid id, [FromBody] SetorDTO dto)
         {
