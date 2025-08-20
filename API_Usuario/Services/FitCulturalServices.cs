@@ -29,7 +29,7 @@ namespace API_Usuario.Services
 
             FitCultural fitCultural = new FitCultural();
             fitCultural.Nome = dto.Nome;
-            fitCultural.Descricao = dto.Descricao;
+            fitCultural.Observacoes = dto.Observacoes;
             fitCultural.Funcionario = funcionario;
 
             await _context.FitCulturals.AddAsync(fitCultural);
@@ -46,7 +46,7 @@ namespace API_Usuario.Services
             if (funcionario == null) return "Cargo não encontrado";
 
             fitCultural.Nome = dto.Nome;
-            fitCultural.Descricao = dto.Descricao;
+            fitCultural.Observacoes = dto.Observacoes;
             fitCultural.Funcionario = funcionario;
 
             _context.FitCulturals.Update(fitCultural);
