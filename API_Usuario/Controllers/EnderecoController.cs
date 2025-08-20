@@ -22,7 +22,15 @@ namespace API_Usuario.Controllers
         {
             return Ok(await _service.GetAllEndereco());
         }
-        
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(Guid id)
+        {
+            Endereco? endereco = await _service.GetById(id);
+            if (endereco == null) return NotFound("Endereço não encontrado");
+            return Ok(endereco);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] EnderecoDTOs dto)
         {
@@ -34,8 +42,8 @@ namespace API_Usuario.Controllers
         public async Task<ActionResult> Update(Guid id, [FromBody] EnderecoDTOs dto)
         {
             string resultado = await _service.UpdateEndereco(id, dto);
-                if (resultado.Contains("Não encontrado")) return NotFound(resultado);
-                return Ok(resultado);
+            if (resultado.Contains("Não encontrado")) return NotFound(resultado);
+            return Ok(new { mensagem = resultado });
         }
 
         [HttpDelete("{id}")]
@@ -43,7 +51,7 @@ namespace API_Usuario.Controllers
         {
             string resultado = await _service.DeleteEndereco(id);
             if (resultado.Contains("Não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(new { mensagem = resultado });
         }
     }
 }

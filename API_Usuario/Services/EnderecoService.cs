@@ -21,6 +21,11 @@ namespace API_Usuario.Services
 
         }
 
+        public async Task<Endereco?> GetById(Guid id)
+        {
+            return await _context.Enderecos.FirstOrDefaultAsync(f => f.Id.Equals(id));
+        }
+
         public async Task<Endereco> AddEndereco(EnderecoDTOs dto)
         {
             Endereco endereco = new Endereco();
