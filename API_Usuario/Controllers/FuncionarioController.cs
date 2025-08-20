@@ -21,6 +21,15 @@ namespace API_Usuario.Controllers
         {
             return Ok(await _services.GetAllFuncionarios());
         }
+
+        [HttpGet ("{id}")]
+        public async Task<ActionResult> GetById (Guid id)
+        {
+            var result = await _services.GetFuncionario(id);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] FuncionarioDTOs dto)
         {

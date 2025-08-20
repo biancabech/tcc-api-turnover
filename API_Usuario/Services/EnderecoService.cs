@@ -21,7 +21,7 @@ namespace API_Usuario.Services
 
         }
 
-        public async Task<string> AddEndereco(EnderecoDTOs dto)
+        public async Task<Endereco> AddEndereco(EnderecoDTOs dto)
         {
             Endereco endereco = new Endereco();
             endereco.Cep = dto.Cep;
@@ -35,8 +35,8 @@ namespace API_Usuario.Services
 
             await _context.Enderecos.AddAsync(endereco);
             await _context.SaveChangesAsync();
-            return "Endereço adicionado com sucesso!";
-            
+
+            return endereco;
         }
         public async Task<string> UpdateEndereco(Guid id, EnderecoDTOs dto)
 
