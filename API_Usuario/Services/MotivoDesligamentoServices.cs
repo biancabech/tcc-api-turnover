@@ -14,24 +14,24 @@ namespace API_Usuario.Services
             _Context = context;
         }
 
-        public async Task<List<MotivoDesligamentos>> GetAllMotivoDesligamento()
+        public async Task<List<MotivoDesligamento>> GetAllMotivoDesligamento()
         {
             return await  _Context.MotivoDesligamentos
                 .ToListAsync();
         }
 
+        public async Task<MotivoDesligamento?> GetMotivoDesligamento(Guid id)
+        {
+            var motivoDesligamento = await _Context.MotivoDesligamentos.FindAsync(id);
+
+            return motivoDesligamento;
+        }
+
         public async Task<string> AddMotivoDesligamento(MotivoDesligamentoDTOs dto)
         {
-            var motivo = await _Context.MotivoDesligamentos.FindAsync(dto.FuncionarioId);
-            if (motivo == null) return "Desligamento não encontrado";
-
-            var funcionario = await _Context.Funcionarios.FindAsync(dto.FuncionarioId);
-            if (funcionario == null) return "Funcionário não encontrado";
-
-            MotivoDesligamentos motivoDesligamentos = new MotivoDesligamentos();
+            MotivoDesligamento motivoDesligamentos = new MotivoDesligamento();
             motivoDesligamentos.Motivo = dto.Motivo;
             motivoDesligamentos.Descricao = dto.Descricao;
-            motivoDesligamentos.Funcionario = funcionario;
 
             _Context.MotivoDesligamentos.Add(motivoDesligamentos);
             await _Context.SaveChangesAsync();
@@ -43,7 +43,7 @@ namespace API_Usuario.Services
             var motivoDesligamento = await _Context.Desligamentos.Include(f => f.Id).FirstOrDefaultAsync(f => f.Id.Equals(id));
             if (motivoDesligamento == null) return "Desligamento não encontrado";
 
-            var motivo = await _Context.MotivoDesligamentos.FindAsync(dto.DesligamentoId);
+            var motivo = await _Context.MotivoDesligamentos.FindAsync(id);
             if (motivo == null) return "Motivo não encontrado";
 
             motivo.Motivo = dto.Motivo;
