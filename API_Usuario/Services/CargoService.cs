@@ -20,7 +20,14 @@ namespace API_Usuario.Services
                 .Include(f => f.Funcionarios)
                 .ToListAsync();
         }
-        public async Task<string> AddCargo(CargoDTOs dto)
+
+        public async Task<Cargo?> GetCargo(Guid id)
+        {
+            var cargo = await _context.Cargos.FindAsync(id);
+
+            return cargo;
+        }
+        public async Task<Cargo> AddCargo(CargoDTOs dto)
         { 
 
             Cargo cargo = new Cargo();
@@ -30,7 +37,7 @@ namespace API_Usuario.Services
 
             await _context.Cargos.AddAsync(cargo);
             await _context.SaveChangesAsync();
-            return "Cargo adicionado com sucesso!";
+            return cargo;
         }
         public async Task<string> UpdateCargo(Guid id, CargoDTOs dto)
         {
@@ -39,7 +46,6 @@ namespace API_Usuario.Services
 
             cargo.Nome = dto.Nome;
            
-
             _context.Cargos.Update(cargo);
             await _context.SaveChangesAsync();
             return "Cargo atualizado com sucesso!";

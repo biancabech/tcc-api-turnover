@@ -22,10 +22,26 @@ namespace API_Usuario.Services
                 .Include (f => f.Funcionario.Cargo)
                 .ToListAsync();
         }
+
+        public async Task<Desligamento?> GetDesligamento(Guid id)
+        {
+            var desligamento = await _context.Desligamentos
+                .Include (f => f.Funcionario)
+                .Include(f => f.Funcionario.Setor)
+                .Include(f => f.Funcionario.Cargo)
+                .Where (f => f.Id == id)
+                .SingleAsync();
+
+            return desligamento;
+        }
+
         public async Task<string> AddDesligamento(DesligamentoDTOs dto)
         {
-            var funcionario = await _context.Funcionarios.FindAsync(dto.FuncionarioId);
+            Funcionario? funcionario = await _context.Funcionarios.FindAsync(dto.FuncionarioId);
             if (funcionario == null) return "Funcionario não encontrado";
+
+            MotivoDesligamento? motivo = await _context.MotivoDesligamentos.FindAsync(dto.MotivoDesligamentoId);
+            if (motivo == null) return "Motivo desligamento não encontrado";
 
             Desligamento desligamento = new Desligamento();
             desligamento.DataDesligamento = DateTime.Parse(dto.DataDesligamento);
@@ -33,11 +49,14 @@ namespace API_Usuario.Services
             desligamento.Descricao = dto.Descricao;
             desligamento.FeedDesligamento = dto.Descricao;
             desligamento.Funcionario = funcionario;
+            desligamento.MotivoDesligamento = motivo;
 
             await _context.Desligamentos.AddAsync(desligamento);
             await _context.SaveChangesAsync();
+
             return "Desligamento adicionado com sucesso!";
         }
+
         public async Task<string> UpdateDesligamento(Guid id, DesligamentoDTOs dto)
         {
             var desligamento = await _context.Desligamentos.Include(f => f.Funcionario).FirstOrDefaultAsync(f => f.Id.Equals(id));

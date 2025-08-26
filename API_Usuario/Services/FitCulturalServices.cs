@@ -22,11 +22,16 @@ namespace API_Usuario.Services
                 .Include (f => f.Funcionario.Cargo)
                 .ToListAsync();
         }
+
+        public async Task<FitCultural?> GetFitCultural(Guid id)
+        {
+            var fitCultural = await _context.FitCulturals.FindAsync(id);
+
+            return fitCultural;
+        }
         public async Task<string> AddFitCultural(FitCulturalDTOs dto)
         {
-            var funcionario = await _context.Funcionarios.FindAsync(dto.FuncionarioId);
-            if (funcionario == null) return "Funcionário não encontrado";
-
+            Funcionario funcionario = new Funcionario();
             FitCultural fitCultural = new FitCultural();
             fitCultural.Nome = dto.Nome;
             fitCultural.Descricao = dto.Descricao;

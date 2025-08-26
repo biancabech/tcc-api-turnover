@@ -2,6 +2,7 @@
 using API_Usuario.DTOs;
 using API_Usuario.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API_Usuario.Services
 {
@@ -25,7 +26,21 @@ namespace API_Usuario.Services
 
         public async Task<Funcionario?> GetFuncionario(Guid id)
         {
-            var funcionario = await _context.Funcionarios.FindAsync(id);
+            var funcionario = await _context.Funcionarios
+                .Include(f => f.Endereco) // join
+                .Where(f => f.Id == id)
+                .SingleAsync();
+
+            return funcionario;
+        }
+
+        public async Task<Funcionario?> GetFuncionarioCpf(String cpf)
+        {
+            Funcionario funcionario = await _context.Funcionarios
+                .Include(f => f.Cargo) // join
+                .Include(f => f.Setor)
+                .SingleAsync(f => f.Cpf == cpf);
+
             return funcionario;
         }
 

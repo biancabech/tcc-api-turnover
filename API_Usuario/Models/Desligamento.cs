@@ -10,5 +10,8 @@
         public string FeedDesligamento { get; set; }
         public Guid FuncionarioId { get; set; }
         public Funcionario Funcionario { get; set; }
+        public Guid MotivoDesligamentoId { get; set; }
+
+        public MotivoDesligamento? MotivoDesligamento { get; set; }
     }
 }

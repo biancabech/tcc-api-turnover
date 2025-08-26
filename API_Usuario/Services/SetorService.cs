@@ -21,7 +21,8 @@ namespace API_Usuario.Services
                 .ToListAsync();
         }
 
-        public async Task<Setor?> GetSetor(Guid id) {
+        public async Task<Setor?> GetSetor(Guid id)
+        {
             var setor = await _context.Setores.FindAsync(id);
 
             return setor;
@@ -30,10 +31,9 @@ namespace API_Usuario.Services
         public async Task<Setor> AddSetor(SetorDTO dto)
         {
             Setor setor = new Setor();
-
             setor.Id = Guid.NewGuid();
             setor.Nome = dto.Nome;
-            
+
             await _context.Setores.AddAsync(setor);
             await _context.SaveChangesAsync();
             return setor;

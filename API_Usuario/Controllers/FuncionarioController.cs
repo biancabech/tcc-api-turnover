@@ -30,6 +30,14 @@ namespace API_Usuario.Controllers
             return Ok(result);
         }
 
+        [HttpGet("cpf/{cpf}")]
+        public async Task<ActionResult> GetByName(string cpf)
+        {
+            var result = await _services.GetFuncionarioCpf(cpf);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] FuncionarioDTOs dto)
         {

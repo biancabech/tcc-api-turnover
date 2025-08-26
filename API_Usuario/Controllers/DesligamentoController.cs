@@ -16,31 +16,43 @@ namespace API_Usuario.Controllers
         {
             _services = DesligamentoServices;
         }
+
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
             return Ok(await _services.GetAllDesligamentos());
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(Guid id)
+        {
+            var result = await _services.GetDesligamento(id);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] DesligamentoDTOs dto)
         {
             string resultado = await _services.AddDesligamento(dto);
             if (resultado.Contains("Não")) return BadRequest(resultado);
-            return Ok(resultado);
+            return Ok(new { mensagem = resultado });
         }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(Guid id, [FromBody] DesligamentoDTOs dto)
         {
             string resultado = await _services.UpdateDesligamento(id, dto);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(new { mensagem = resultado });
         }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
             string resultado = await _services.DeleteDesligamento(id);
             if (resultado.Contains("Não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(new { mensagem = resultado });
         }
     }
 }

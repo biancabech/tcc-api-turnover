@@ -115,7 +115,7 @@ namespace API_Usuario.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DadosGraficosAnuais");
+                    b.ToTable("GraficosAnuais");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.Desligamento", b =>
@@ -138,12 +138,17 @@ namespace API_Usuario.Migrations
                     b.Property<Guid>("FuncionarioId")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("MotivoDesligamentoId")
+                        .HasColumnType("char(36)");
+
                     b.Property<bool>("isGrave")
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FuncionarioId");
+
+                    b.HasIndex("MotivoDesligamentoId");
 
                     b.ToTable("Desligamentos");
                 });
@@ -261,7 +266,7 @@ namespace API_Usuario.Migrations
                     b.ToTable("Funcionarios");
                 });
 
-            modelBuilder.Entity("API_Usuario.Models.LabeledValue<double>", b =>
+            modelBuilder.Entity("API_Usuario.Models.LabeledValue<int>", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,8 +291,8 @@ namespace API_Usuario.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<double>("Value")
-                        .HasColumnType("double");
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -301,7 +306,7 @@ namespace API_Usuario.Migrations
 
                     b.HasIndex("DadosGraficoAnualId4");
 
-                    b.ToTable("LabeledValue<double>");
+                    b.ToTable("LabeledValue<int>");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.LabeledValue<string>", b =>
@@ -332,7 +337,7 @@ namespace API_Usuario.Migrations
                     b.ToTable("LabeledValue<string>");
                 });
 
-            modelBuilder.Entity("API_Usuario.Models.MotivoDesligamentos", b =>
+            modelBuilder.Entity("API_Usuario.Models.MotivoDesligamento", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -342,21 +347,11 @@ namespace API_Usuario.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("DesligamentoId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("FuncionarioId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("Motivo")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DesligamentoId");
-
-                    b.HasIndex("FuncionarioId");
 
                     b.ToTable("MotivoDesligamentos");
                 });
@@ -395,7 +390,15 @@ namespace API_Usuario.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API_Usuario.Models.MotivoDesligamento", "MotivoDesligamento")
+                        .WithMany()
+                        .HasForeignKey("MotivoDesligamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Funcionario");
+
+                    b.Navigation("MotivoDesligamento");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.FitCultural", b =>
@@ -436,7 +439,7 @@ namespace API_Usuario.Migrations
                     b.Navigation("Setor");
                 });
 
-            modelBuilder.Entity("API_Usuario.Models.LabeledValue<double>", b =>
+            modelBuilder.Entity("API_Usuario.Models.LabeledValue<int>", b =>
                 {
                     b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
                         .WithMany("DepartmentsWithTerminations")
@@ -468,25 +471,6 @@ namespace API_Usuario.Migrations
                     b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
                         .WithMany("Units")
                         .HasForeignKey("DadosGraficoAnualId1");
-                });
-
-            modelBuilder.Entity("API_Usuario.Models.MotivoDesligamentos", b =>
-                {
-                    b.HasOne("API_Usuario.Models.Desligamento", "Desligamento")
-                        .WithMany()
-                        .HasForeignKey("DesligamentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API_Usuario.Models.Funcionario", "Funcionario")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Desligamento");
-
-                    b.Navigation("Funcionario");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.Cargo", b =>

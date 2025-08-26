@@ -23,6 +23,14 @@ namespace API_Usuario.Controllers
             return Ok(await _services.GetAllFitCulturals());
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(Guid id)
+        {
+            var result = await _services.GetFitCultural(id);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] FitCulturalDTOs dto)
         {
@@ -35,14 +43,14 @@ namespace API_Usuario.Controllers
         {
             string resultado = await _services.UpdateFitCultural(id, dto);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(new { mensagem = resultado });
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
             string resultado = await _services.DeleteFitCultural(id);
             if (resultado.Contains("não encontrado")) return NotFound(resultado);
-            return Ok(resultado);
+            return Ok(new { mensagem = resultado });
         }
     }
 }
