@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Value.cs" />
+    <Compile Remove="Controllers\ValueController.cs" />
     <Compile Remove="Models\A.cs" />
+    <Compile Remove="Services\ValueService.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -19,21 +19,22 @@ namespace API_Usuario.Services
                 .GroupBy(d => new { d.DataDesligamento.Year, d.DataDesligamento.Month })
                 .Select(g => new LabeledValue<string>
                 {
-                    Label = $"{g.Key.Year}-{g.Key.Month:00}",
+                    Label = $"{g.Key.Month:00}/{g.Key.Year}",
                     Value = g.Count().ToString()
                 }).ToListAsync();
 
-            List<LabeledValue<int>> motivosDesligamentos = await _context.Desligamentos.AsQueryable()
-                .GroupBy(d => d.Descricao)
-                //.Join(_context.MotivoDesligamentos.AsQueryable(),
-                //    d => d.Key,
-                //    m => m.Descricao,
-                //    (d, m) => new { d.Key, Count = d.Count(), m.Id })
-                .Select(g => new LabeledValue<int>
-                {
-                    Label = g.Key,
-                    Value = g.Count()
-                }).ToListAsync();
+            // TODO: Fazer o crud dos motivos de desligamento
+            //List<LabeledValue<int>> motivosDesligamentos = await _context.Desligamentos.AsQueryable()
+            //    .GroupBy(d => d.Descricao)
+            //    //.Join(_context.MotivoDesligamentos.AsQueryable(),
+            //    //    d => d.Key,
+            //    //    m => m.Descricao,
+            //    //    (d, m) => new { d.Key, Count = d.Count(), m.Id })
+            //    .Select(g => new LabeledValue<int>
+            //    {
+            //        Label = g.Key,
+            //        Value = g.Count()
+            //    }).ToListAsync();
 
             List<LabeledValue<int>> desligamentosPorSetor = await _context.Desligamentos.AsQueryable()
                 .Join(_context.Funcionarios.AsQueryable(),
@@ -61,12 +62,10 @@ namespace API_Usuario.Services
 
             int qtdAdmitidos = await _context.Funcionarios.AsQueryable()
                 .Select(f => f.Id)
-                .Distinct()
                 .CountAsync();
 
             int qtdDesligados = await _context.Desligamentos.AsQueryable()
                 .Select(d => d.Id)
-                .Distinct()
                 .CountAsync();
 
             // retorna os dados do gráfico anual
@@ -82,7 +81,7 @@ namespace API_Usuario.Services
                     Label = p.Label,
                     Value = int.Parse(p.Value)
                 }).ToList(),
-                TerminationReasons = motivosDesligamentos,
+                //TerminationReasons = motivosDesligamentos,
                 DepartmentsWithTerminations = desligamentosPorSetor,
                 PositionsWithTerminations = desligamentosPorCargo,
                 Ano = turnoverPeriodos.Select(p => p.Label.Split('-')[0]).Distinct().ToList(),

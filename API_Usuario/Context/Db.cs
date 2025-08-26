@@ -17,10 +17,12 @@ namespace API_Usuario.Context
 
         public DbSet<FitCultural> FitCulturals { get; set; }
 
-        public DbSet<MotivoDesligamentos> MotivoDesligamentos { get; set; }
+        public DbSet<MotivoDesligamento> MotivoDesligamentos { get; set; }
 
         public DbSet<Setor> Setores { get; set; }    
 
         public DbSet<Endereco> Enderecos { get; set; }
+
+        public DbSet<DadosGraficoAnual> GraficosAnuais { get; set; }
     }
 }
