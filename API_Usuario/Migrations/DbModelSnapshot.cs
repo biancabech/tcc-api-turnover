@@ -103,14 +103,14 @@ namespace API_Usuario.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("AdmittedCount")
-                        .HasColumnType("int");
-
                     b.Property<string>("Ano")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("TerminatedCount")
+                    b.Property<int>("QtdeAdmitidos")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QtdeDesligados")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -197,6 +197,9 @@ namespace API_Usuario.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -266,7 +269,7 @@ namespace API_Usuario.Migrations
                     b.ToTable("Funcionarios");
                 });
 
-            modelBuilder.Entity("API_Usuario.Models.LabeledValue<int>", b =>
+            modelBuilder.Entity("API_Usuario.Models.Grafico<int>", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -284,14 +287,11 @@ namespace API_Usuario.Migrations
                     b.Property<Guid?>("DadosGraficoAnualId3")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("DadosGraficoAnualId4")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Label")
+                    b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Value")
+                    b.Property<int>("Valor")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -304,12 +304,10 @@ namespace API_Usuario.Migrations
 
                     b.HasIndex("DadosGraficoAnualId3");
 
-                    b.HasIndex("DadosGraficoAnualId4");
-
-                    b.ToTable("LabeledValue<int>");
+                    b.ToTable("Grafico<int>");
                 });
 
-            modelBuilder.Entity("API_Usuario.Models.LabeledValue<string>", b =>
+            modelBuilder.Entity("API_Usuario.Models.Grafico<string>", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -318,23 +316,18 @@ namespace API_Usuario.Migrations
                     b.Property<Guid?>("DadosGraficoAnualId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("DadosGraficoAnualId1")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Label")
+                    b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Value")
+                    b.Property<string>("Valor")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DadosGraficoAnualId");
 
-                    b.HasIndex("DadosGraficoAnualId1");
-
-                    b.ToTable("LabeledValue<string>");
+                    b.ToTable("Grafico<string>");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.MotivoDesligamento", b =>
@@ -439,38 +432,30 @@ namespace API_Usuario.Migrations
                     b.Navigation("Setor");
                 });
 
-            modelBuilder.Entity("API_Usuario.Models.LabeledValue<int>", b =>
+            modelBuilder.Entity("API_Usuario.Models.Grafico<int>", b =>
                 {
                     b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
-                        .WithMany("DepartmentsWithTerminations")
+                        .WithMany("DadosTurnover")
                         .HasForeignKey("DadosGraficoAnualId");
 
                     b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
-                        .WithMany("HiringReasons")
+                        .WithMany("DesligamentosPorCargos")
                         .HasForeignKey("DadosGraficoAnualId1");
 
                     b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
-                        .WithMany("PositionsWithTerminations")
+                        .WithMany("DesligamentosPorSetor")
                         .HasForeignKey("DadosGraficoAnualId2");
 
                     b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
-                        .WithMany("TerminationReasons")
+                        .WithMany("MotivosDeDesligamento")
                         .HasForeignKey("DadosGraficoAnualId3");
-
-                    b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
-                        .WithMany("TurnoverData")
-                        .HasForeignKey("DadosGraficoAnualId4");
                 });
 
-            modelBuilder.Entity("API_Usuario.Models.LabeledValue<string>", b =>
+            modelBuilder.Entity("API_Usuario.Models.Grafico<string>", b =>
                 {
                     b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
                         .WithMany("Meses")
                         .HasForeignKey("DadosGraficoAnualId");
-
-                    b.HasOne("API_Usuario.Models.DadosGraficoAnual", null)
-                        .WithMany("Units")
-                        .HasForeignKey("DadosGraficoAnualId1");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.Cargo", b =>
@@ -480,19 +465,15 @@ namespace API_Usuario.Migrations
 
             modelBuilder.Entity("API_Usuario.Models.DadosGraficoAnual", b =>
                 {
-                    b.Navigation("DepartmentsWithTerminations");
+                    b.Navigation("DadosTurnover");
 
-                    b.Navigation("HiringReasons");
+                    b.Navigation("DesligamentosPorCargos");
+
+                    b.Navigation("DesligamentosPorSetor");
 
                     b.Navigation("Meses");
 
-                    b.Navigation("PositionsWithTerminations");
-
-                    b.Navigation("TerminationReasons");
-
-                    b.Navigation("TurnoverData");
-
-                    b.Navigation("Units");
+                    b.Navigation("MotivosDeDesligamento");
                 });
 
             modelBuilder.Entity("API_Usuario.Models.Setor", b =>

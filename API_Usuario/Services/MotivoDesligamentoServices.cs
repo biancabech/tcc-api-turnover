@@ -38,12 +38,9 @@ namespace API_Usuario.Services
             return "Motivo do Desligamento foi adicionado com Sucesso!";
         }
 
-        public async Task<string> UpdateMotivoDesligamento(int id, MotivoDesligamentoDTOs dto)
+        public async Task<string> UpdateMotivoDesligamento(Guid id, MotivoDesligamentoDTOs dto)
         {
-            var motivoDesligamento = await _Context.Desligamentos.Include(f => f.Id).FirstOrDefaultAsync(f => f.Id.Equals(id));
-            if (motivoDesligamento == null) return "Desligamento não encontrado";
-
-            var motivo = await _Context.MotivoDesligamentos.FindAsync(id);
+            MotivoDesligamento? motivo = await _Context.MotivoDesligamentos.FindAsync(id);
             if (motivo == null) return "Motivo não encontrado";
 
             motivo.Motivo = dto.Motivo;
@@ -64,10 +61,7 @@ namespace API_Usuario.Services
             return "Motivo removido com sucesso";
         }
 
-        internal async Task<string> UpdateMotivoDesligamento(Guid id, MotivoDesligamentoDTOs dto)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
 }
