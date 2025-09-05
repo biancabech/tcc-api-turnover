@@ -17,9 +17,6 @@ namespace API_Usuario.Services
         public async Task<List<FitCultural>> GetAllFitCulturals()
         {
             return await _context.FitCulturals
-                .Include(f => f.Funcionario)
-                .Include (f => f.Funcionario.Setor)
-                .Include (f => f.Funcionario.Cargo)
                 .ToListAsync();
         }
 
@@ -31,28 +28,29 @@ namespace API_Usuario.Services
         }
         public async Task<string> AddFitCultural(FitCulturalDTOs dto)
         {
-            Funcionario funcionario = new Funcionario();
             FitCultural fitCultural = new FitCultural();
             fitCultural.Nome = dto.Nome;
             fitCultural.Descricao = dto.Descricao;
-            fitCultural.Funcionario = funcionario;
+            fitCultural.Data = DateTime.Parse(dto.Data);
 
             await _context.FitCulturals.AddAsync(fitCultural);
             await _context.SaveChangesAsync();
+
             return "Fit Cultural adicionado com sucesso!";
 
         }
         public async Task<string> UpdateFitCultural(Guid id, FitCulturalDTOs dto)
         {
-            var fitCultural = await _context.FitCulturals.Include(f => f.Funcionario).FirstOrDefaultAsync(f => f.Id.Equals(id));
+            var fitCultural = await _context.FitCulturals
+                    .FirstOrDefaultAsync(f => f.Id.Equals(id));
             if (fitCultural == null) return "Fit Cultural não encontrado";
 
-            var funcionario = await _context.Funcionarios.FindAsync(dto.FuncionarioId);
-            if (funcionario == null) return "Cargo não encontrado";
+          
 
             fitCultural.Nome = dto.Nome;
             fitCultural.Descricao = dto.Descricao;
-            fitCultural.Funcionario = funcionario;
+            fitCultural.Data = DateTime.Parse(dto.Data);
+
 
             _context.FitCulturals.Update(fitCultural);
             await _context.SaveChangesAsync();

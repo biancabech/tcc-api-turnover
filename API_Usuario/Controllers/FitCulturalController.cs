@@ -36,8 +36,9 @@ namespace API_Usuario.Controllers
         {
             string resultado = await _services.AddFitCultural(dto);
             if (resultado.Contains("Não")) return BadRequest(resultado);
-            return Ok(resultado);
+            return Ok(new { mensagem = resultado });
         }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(Guid id, [FromBody] FitCulturalDTOs dto)
         {

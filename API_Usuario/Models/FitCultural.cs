@@ -8,7 +8,7 @@
 
         public string Descricao { get; set; }
 
-        public Funcionario Funcionario { get; set; }
+        public DateTime Data {  get; set; }
 
     }
 }

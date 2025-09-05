@@ -6,6 +6,6 @@
 
         public string Descricao { get; set; }
 
-        public Guid FuncionarioId { get; set; }
+        public string Data { get; set; }
     }
 }
