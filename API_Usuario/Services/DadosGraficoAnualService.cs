@@ -15,83 +15,83 @@ namespace API_Usuario.Services
 
         public async Task<DadosGraficoAnual> GetGrafico()
         {
-            List<LabeledValue<string>> turnoverPeriodos = await _context.Desligamentos.AsQueryable()
+            // Turnover por período (mês/ano)
+            var turnoverPeriodos = await _context.Desligamentos
                 .GroupBy(d => new { d.DataDesligamento.Year, d.DataDesligamento.Month })
-                .Select(g => new LabeledValue<string>
+                .Select(g => new Grafico<int>
                 {
-                    Label = $"{g.Key.Month:00}/{g.Key.Year}",
-                    Value = g.Count().ToString()
+                    Titulo = $"{g.Key.Month:00}/{g.Key.Year}",
+                    Valor = g.Count()
                 }).ToListAsync();
 
-            // TODO: Fazer o crud dos motivos de desligamento
-            //List<LabeledValue<int>> motivosDesligamentos = await _context.Desligamentos.AsQueryable()
-            //    .GroupBy(d => d.Descricao)
-            //    //.Join(_context.MotivoDesligamentos.AsQueryable(),
-            //    //    d => d.Key,
-            //    //    m => m.Descricao,
-            //    //    (d, m) => new { d.Key, Count = d.Count(), m.Id })
-            //    .Select(g => new LabeledValue<int>
-            //    {
-            //        Label = g.Key,
-            //        Value = g.Count()
-            //    }).ToListAsync();
+            // Motivos de desligamento (join e count)
+            var motivosDesligamentos = await _context.Desligamentos
+                .GroupBy(d => d.MotivoDesligamento.Motivo)
+                .Select(g => new Grafico<int>
+                {
+                    Titulo = g.Key,
+                    Valor = g.Count()
+                }).ToListAsync();
 
-            List<LabeledValue<int>> desligamentosPorSetor = await _context.Desligamentos.AsQueryable()
-                .Join(_context.Funcionarios.AsQueryable(),
+            // Desligamentos por setor
+            var desligamentosPorSetor = await _context.Desligamentos
+                .Join(_context.Funcionarios,
                     d => d.FuncionarioId,
                     f => f.Id,
                     (d, f) => new { d, f })
-                .Join(_context.Setores.AsQueryable(),
+                .Join(_context.Setores,
                     df => df.f.SetorId,
                     s => s.Id,
                     (df, s) => new { df.d, s.Nome })
-                .GroupBy(d => d.Nome)
-                .Select(g => new LabeledValue<int>
+                .GroupBy(x => x.Nome)
+                .Select(g => new Grafico<int>
                 {
-                    Label = g.Key,
-                    Value = g.Count()
+                    Titulo = g.Key,
+                    Valor = g.Count()
                 }).ToListAsync();
 
-            List<LabeledValue<int>> desligamentosPorCargo = await _context.Desligamentos.AsQueryable()
-                .GroupBy(d => d.Descricao)
-                .Select(g => new LabeledValue<int>
+            // Desligamentos por cargo
+            var desligamentosPorCargo = await _context.Desligamentos
+                .Join(_context.Funcionarios,
+                    d => d.FuncionarioId,
+                    f => f.Id,
+                    (d, f) => new { d, f })
+                .Join(_context.Cargos,
+                    df => df.f.CargoId,
+                    c => c.Id,
+                    (df, c) => new { df.d, c.Nome })
+                .GroupBy(x => x.Nome)
+                .Select(g => new Grafico<int>
                 {
-                    Label = g.Key,
-                    Value = g.Count()
+                    Titulo = g.Key,
+                    Valor = g.Count()
                 }).ToListAsync();
 
-            int qtdAdmitidos = await _context.Funcionarios.AsQueryable()
-                .Select(f => f.Id)
-                .CountAsync();
+            // Quantidade de admitidos
+            int qtdAdmitidos = await _context.Funcionarios.CountAsync();
 
-            int qtdDesligados = await _context.Desligamentos.AsQueryable()
-                .Select(d => d.Id)
-                .CountAsync();
+            // Quantidade de desligados
+            int qtdDesligados = await _context.Desligamentos.CountAsync();
 
-            // retorna os dados do gráfico anual
+            // Retorno dos dados do gráfico anual
             return new DadosGraficoAnual
             {
-                Units = turnoverPeriodos.Select(p => new LabeledValue<string>
+                DadosTurnover = turnoverPeriodos.Select(p => new Grafico<int>
                 {
-                    Label = p.Label,
-                    Value = p.Value
+                    Titulo = p.Titulo,
+                    Valor = p.Valor,
                 }).ToList(),
-                TurnoverData = turnoverPeriodos.Select(p => new LabeledValue<int>
+                MotivosDeDesligamento = motivosDesligamentos,
+                DesligamentosPorSetor = desligamentosPorSetor,
+                DesligamentosPorCargos = desligamentosPorCargo,
+                Ano = turnoverPeriodos.Select(p => p.Titulo.Split('/')[1]).Distinct().ToList(),
+                Meses = turnoverPeriodos.Select(p => new Grafico<string>
                 {
-                    Label = p.Label,
-                    Value = int.Parse(p.Value)
-                }).ToList(),
-                //TerminationReasons = motivosDesligamentos,
-                DepartmentsWithTerminations = desligamentosPorSetor,
-                PositionsWithTerminations = desligamentosPorCargo,
-                Ano = turnoverPeriodos.Select(p => p.Label.Split('-')[0]).Distinct().ToList(),
-                Meses = turnoverPeriodos.Select(p => new LabeledValue<string>
-                {
-                    Label = p.Label.Split('-')[1],
-                    Value = p.Label
+                    Titulo = p.Titulo.Split('/')[0],
+                    Valor = p.Titulo
                 }).Distinct().ToList(),
-                AdmittedCount = qtdAdmitidos,
-                TerminatedCount = qtdDesligados
+                QtdeAdmitidos = qtdAdmitidos,
+                QtdeDesligados = qtdDesligados
             };
         }
     }
