@@ -1,7 +1,8 @@
 ﻿using API_Usuario.DTOs;
-using API_Usuario.Services;
-using Microsoft.AspNetCore.Mvc;
 using API_Usuario.Models;
+using API_Usuario.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API_Usuario.Controllers
 {
